@@ -8,620 +8,265 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --void: #07090F;
-    --surface-0: #0D1117;
-    --surface-1: #111827;
-    --surface-2: #1A2332;
-    --surface-3: #1E293B;
-    --border: #243040;
-    --mint: #6EE7B7;
-    --mint-dim: rgba(110,231,183,0.12);
-    --indigo: #818CF8;
-    --indigo-dim: rgba(129,140,248,0.12);
-    --amber: #F59E0B;
-    --amber-dim: rgba(245,158,11,0.12);
-    --rose: #F87171;
-    --rose-dim: rgba(248,113,113,0.10);
-    --sky: #38BDF8;
-    --sky-dim: rgba(56,189,248,0.10);
-    --violet: #A78BFA;
-    --violet-dim: rgba(167,139,250,0.10);
-    --text-1: #F1F5F9;
-    --text-2: #94A3B8;
-    --text-3: #64748B;
+    --void: #07090F; --surface-0: #0D1117; --surface-1: #111827;
+    --surface-2: #1A2332; --surface-3: #1E293B; --border: #243040;
+    --mint: #6EE7B7; --mint-dim: rgba(110,231,183,0.12);
+    --indigo: #818CF8; --indigo-dim: rgba(129,140,248,0.12);
+    --amber: #F59E0B; --amber-dim: rgba(245,158,11,0.12);
+    --rose: #F87171; --rose-dim: rgba(248,113,113,0.10);
+    --sky: #38BDF8; --sky-dim: rgba(56,189,248,0.10);
+    --violet: #A78BFA; --violet-dim: rgba(167,139,250,0.10);
+    --text-1: #F1F5F9; --text-2: #94A3B8; --text-3: #64748B;
     --font-display: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
   }
-
   html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--void); color: var(--text-1); min-height: 100vh; overflow-x: hidden; }
 
-  body {
-    font-family: var(--font-body);
-    background: var(--void);
-    color: var(--text-1);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ── STICKY PROGRESS BAR ── */
+  /* ── PROGRESS BAR ── */
   #progress-bar-wrap {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 9999;
-    background: rgba(7,9,15,0.92);
-    backdrop-filter: blur(12px);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: rgba(7,9,15,0.92); backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    padding: 10px 20px; display: flex; align-items: center; gap: 14px;
   }
-
-  #progress-bar-wrap .logo {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--mint);
-    white-space: nowrap;
-    letter-spacing: 0.05em;
-  }
-
-  #progress-track {
-    flex: 1;
-    height: 6px;
-    background: var(--surface-3);
-    border-radius: 999px;
-    overflow: hidden;
-  }
-
-  #progress-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, var(--mint), var(--indigo));
-    border-radius: 999px;
-    transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
-    box-shadow: 0 0 10px var(--mint);
-  }
-
-  #progress-pct {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--mint);
-    min-width: 42px;
-    text-align: right;
-  }
-
-  #progress-count {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-3);
-    white-space: nowrap;
-  }
+  #progress-bar-wrap .logo { font-family: var(--font-mono); font-size: 12px; color: var(--mint); white-space: nowrap; letter-spacing: 0.05em; }
+  #progress-track { flex: 1; height: 6px; background: var(--surface-3); border-radius: 999px; overflow: hidden; }
+  #progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--mint), var(--indigo)); border-radius: 999px; transition: width 0.4s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 0 10px var(--mint); }
+  #progress-pct { font-family: var(--font-mono); font-size: 12px; color: var(--mint); min-width: 42px; text-align: right; }
+  #progress-count { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); white-space: nowrap; }
 
   /* ── HERO ── */
-  .hero {
-    padding: 120px 24px 60px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -100px; left: 50%; transform: translateX(-50%);
-    width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(110,231,183,0.06) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--mint);
-    background: var(--mint-dim);
-    border: 1px solid rgba(110,231,183,0.2);
-    padding: 6px 14px;
-    border-radius: 999px;
-    margin-bottom: 24px;
-  }
-
-  .hero-eyebrow::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--mint);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.8); }
-  }
-
-  .hero h1 {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 3.6rem);
-    font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 16px;
-    letter-spacing: -0.02em;
-  }
-
+  .hero { padding: 120px 24px 60px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 700px; height: 700px; background: radial-gradient(circle, rgba(110,231,183,0.06) 0%, transparent 70%); pointer-events: none; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mint); background: var(--mint-dim); border: 1px solid rgba(110,231,183,0.2); padding: 6px 14px; border-radius: 999px; margin-bottom: 24px; }
+  .hero-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--mint); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(0.8);} }
+  .hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3.6rem); font-weight: 700; line-height: 1.1; margin-bottom: 16px; letter-spacing: -0.02em; }
   .hero h1 span.accent { color: var(--mint); }
   .hero h1 span.accent-2 { color: var(--indigo); }
-
-  .hero-sub {
-    font-size: 1rem;
-    color: var(--text-2);
-    max-width: 560px;
-    margin: 0 auto 40px;
-    line-height: 1.7;
-  }
-
-  .hero-stats {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-  }
-
-  .stat {
-    text-align: center;
-  }
-
-  .stat-num {
-    font-family: var(--font-mono);
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--text-1);
-    line-height: 1;
-  }
-
+  .hero-sub { font-size: 1rem; color: var(--text-2); max-width: 560px; margin: 0 auto 40px; line-height: 1.7; }
+  .hero-stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat-num { font-family: var(--font-mono); font-size: 2rem; font-weight: 600; color: var(--text-1); line-height: 1; }
   .stat-num .unit { font-size: 1rem; color: var(--mint); }
-
-  .stat-label {
-    font-size: 11px;
-    color: var(--text-3);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 4px;
-  }
+  .stat-label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
 
   /* ── LAYOUT ── */
-  .container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 24px 80px;
-  }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px 80px; }
+  .phase { margin-bottom: 56px; position: relative; }
 
   /* ── PHASE HEADER ── */
-  .phase {
-    margin-bottom: 48px;
-    position: relative;
-  }
-
   .phase-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 20px;
-    padding: 24px;
-    background: var(--surface-1);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    transition: border-color 0.2s;
+    display: flex; align-items: flex-start; gap: 16px; margin-bottom: 0;
+    padding: 24px; background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 16px 16px 0 0; position: relative; overflow: hidden; transition: border-color 0.2s;
   }
-
-  .phase-header:hover { border-color: var(--border); }
-
-  .phase-header::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 4px; height: 100%;
-    border-radius: 4px 0 0 4px;
-  }
-
-  .phase-header.color-mint::before { background: var(--mint); }
+  .phase-header.no-suggestions { border-radius: 16px; margin-bottom: 20px; }
+  .phase-header::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; border-radius: 4px 0 0 4px; }
+  .phase-header.color-mint::before   { background: var(--mint); }
   .phase-header.color-indigo::before { background: var(--indigo); }
-  .phase-header.color-amber::before { background: var(--amber); }
-  .phase-header.color-rose::before { background: var(--rose); }
-  .phase-header.color-sky::before { background: var(--sky); }
+  .phase-header.color-amber::before  { background: var(--amber); }
+  .phase-header.color-rose::before   { background: var(--rose); }
+  .phase-header.color-sky::before    { background: var(--sky); }
   .phase-header.color-violet::before { background: var(--violet); }
-  .phase-header.color-mint2::before { background: var(--mint); }
+  .phase-header.color-mint2::before  { background: var(--mint); }
   .phase-header.color-amber2::before { background: var(--amber); }
 
-  .phase-icon {
-    width: 48px; height: 48px;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
-  }
-
-  .color-mint .phase-icon   { background: var(--mint-dim);   }
+  .phase-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .color-mint .phase-icon   { background: var(--mint-dim); }
   .color-indigo .phase-icon { background: var(--indigo-dim); }
-  .color-amber .phase-icon  { background: var(--amber-dim);  }
-  .color-rose .phase-icon   { background: var(--rose-dim);   }
-  .color-sky .phase-icon    { background: var(--sky-dim);    }
+  .color-amber .phase-icon  { background: var(--amber-dim); }
+  .color-rose .phase-icon   { background: var(--rose-dim); }
+  .color-sky .phase-icon    { background: var(--sky-dim); }
   .color-violet .phase-icon { background: var(--violet-dim); }
-  .color-mint2 .phase-icon  { background: var(--mint-dim);   }
-  .color-amber2 .phase-icon { background: var(--amber-dim);  }
+  .color-mint2 .phase-icon  { background: var(--mint-dim); }
+  .color-amber2 .phase-icon { background: var(--amber-dim); }
 
   .phase-meta { flex: 1; }
-
-  .phase-step {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--text-3);
-    margin-bottom: 4px;
-  }
-
-  .phase-title {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-1);
-    margin-bottom: 6px;
-  }
-
-  .phase-desc {
-    font-size: 13px;
-    color: var(--text-2);
-    line-height: 1.5;
-  }
-
-  .phase-badges {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-  }
-
-  .badge {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    padding: 3px 10px;
-    border-radius: 999px;
-    border: 1px solid;
-  }
-
+  .phase-step { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-3); margin-bottom: 4px; }
+  .phase-title { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; color: var(--text-1); margin-bottom: 6px; }
+  .phase-desc { font-size: 13px; color: var(--text-2); line-height: 1.5; }
+  .phase-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .badge { font-family: var(--font-mono); font-size: 10px; padding: 3px 10px; border-radius: 999px; border: 1px solid; }
   .badge-time { border-color: rgba(110,231,183,0.3); color: var(--mint); }
   .badge-goal { border-color: rgba(129,140,248,0.3); color: var(--indigo); }
 
-  .phase-progress {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 12px;
-    flex-shrink: 0;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-
-  .phase-pct {
-    font-family: var(--font-mono);
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--text-1);
-  }
-
-  .mini-track {
-    width: 80px; height: 4px;
-    background: var(--surface-3);
-    border-radius: 999px;
-    overflow: hidden;
-  }
-
-  .mini-fill {
-    height: 100%;
-    width: 0%;
-    border-radius: 999px;
-    transition: width 0.4s ease;
-  }
-
-  .color-mint .mini-fill   { background: var(--mint);   }
+  .phase-progress { display: flex; align-items: flex-end; gap: 10px; flex-shrink: 0; flex-direction: column; }
+  .phase-pct { font-family: var(--font-mono); font-size: 22px; font-weight: 600; color: var(--text-1); }
+  .mini-track { width: 80px; height: 4px; background: var(--surface-3); border-radius: 999px; overflow: hidden; }
+  .mini-fill { height: 100%; width: 0%; border-radius: 999px; transition: width 0.4s ease; }
+  .color-mint .mini-fill   { background: var(--mint); }
   .color-indigo .mini-fill { background: var(--indigo); }
-  .color-amber .mini-fill  { background: var(--amber);  }
-  .color-rose .mini-fill   { background: var(--rose);   }
-  .color-sky .mini-fill    { background: var(--sky);    }
+  .color-amber .mini-fill  { background: var(--amber); }
+  .color-rose .mini-fill   { background: var(--rose); }
+  .color-sky .mini-fill    { background: var(--sky); }
   .color-violet .mini-fill { background: var(--violet); }
-  .color-mint2 .mini-fill  { background: var(--mint);   }
-  .color-amber2 .mini-fill { background: var(--amber);  }
+  .color-mint2 .mini-fill  { background: var(--mint); }
+  .color-amber2 .mini-fill { background: var(--amber); }
 
-  /* ── TOPIC CARDS ── */
-  .topics-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-left: 20px;
-  }
-
-  .topic-card {
-    background: var(--surface-1);
-    border: 1px solid var(--border);
-    border-radius: 12px;
+  /* ── SUGGESTIONS PANEL ── */
+  .suggestions-wrap {
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    border-radius: 0 0 0 0;
     overflow: hidden;
-    transition: border-color 0.2s;
+    margin-bottom: 0;
   }
 
-  .topic-card:hover { border-color: var(--surface-3); }
-
-  .topic-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 18px;
+  .suggestions-toggle {
+    display: flex; align-items: center; gap: 10px;
+    padding: 11px 24px;
+    background: rgba(245,158,11,0.05);
+    border-top: 1px dashed rgba(245,158,11,0.2);
     cursor: pointer;
     user-select: none;
-  }
-
-  .topic-check {
-    width: 20px; height: 20px;
-    border-radius: 6px;
-    border: 2px solid var(--border);
-    background: transparent;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-  }
-
-  .topic-check.checked {
-    background: var(--mint);
-    border-color: var(--mint);
-  }
-
-  .topic-check.checked::after {
-    content: '✓';
-    font-size: 11px;
-    color: #000;
-    font-weight: 700;
-  }
-
-  .topic-name {
-    flex: 1;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-1);
-    transition: color 0.2s;
-  }
-
-  .topic-name.done { color: var(--text-3); text-decoration: line-through; }
-
-  .topic-toggle {
-    font-size: 11px;
-    color: var(--text-3);
-    transition: transform 0.2s;
-    margin-left: auto;
-    flex-shrink: 0;
-  }
-
-  .topic-toggle.open { transform: rotate(180deg); }
-
-  /* ── SUBTASKS ── */
-  .subtasks {
-    padding: 0 18px 16px 50px;
-    display: none;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .subtasks.open { display: flex; }
-
-  .subtask-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    background: var(--surface-2);
-    cursor: pointer;
     transition: background 0.15s;
   }
+  .suggestions-toggle:hover { background: rgba(245,158,11,0.09); }
+  .suggestions-toggle .sg-icon { font-size: 14px; }
+  .suggestions-toggle .sg-label { font-family: var(--font-mono); font-size: 11px; color: var(--amber); letter-spacing: 0.08em; flex: 1; }
+  .suggestions-toggle .sg-arrow { font-size: 10px; color: var(--text-3); transition: transform 0.2s; }
+  .suggestions-toggle.open .sg-arrow { transform: rotate(180deg); }
 
+  .suggestions-body {
+    display: none;
+    padding: 20px 24px 24px;
+    background: rgba(245,158,11,0.03);
+    border-top: 1px solid rgba(245,158,11,0.1);
+    gap: 20px;
+    flex-direction: column;
+  }
+  .suggestions-body.open { display: flex; }
+
+  /* suggestion section title */
+  .sg-section-title {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-3); margin-bottom: 8px;
+  }
+
+  /* tip cards grid */
+  .sg-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+
+  .sg-card {
+    padding: 14px 16px; border-radius: 10px;
+    border: 1px solid; font-size: 13px; line-height: 1.55;
+  }
+  .sg-card.do   { background: rgba(110,231,183,0.05); border-color: rgba(110,231,183,0.18); }
+  .sg-card.dont { background: rgba(248,113,113,0.05); border-color: rgba(248,113,113,0.18); }
+  .sg-card.tip  { background: rgba(129,140,248,0.05); border-color: rgba(129,140,248,0.18); }
+  .sg-card.res  { background: rgba(56,189,248,0.05);  border-color: rgba(56,189,248,0.18); }
+  .sg-card.warn { background: rgba(245,158,11,0.06);  border-color: rgba(245,158,11,0.18); }
+
+  .sg-card-tag {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
+  }
+  .sg-card.do   .sg-card-tag { color: var(--mint); }
+  .sg-card.dont .sg-card-tag { color: var(--rose); }
+  .sg-card.tip  .sg-card-tag { color: var(--indigo); }
+  .sg-card.res  .sg-card-tag { color: var(--sky); }
+  .sg-card.warn .sg-card-tag { color: var(--amber); }
+  .sg-card-body { color: var(--text-2); }
+
+  /* resource links list */
+  .sg-links { display: flex; flex-direction: column; gap: 6px; }
+  .sg-link {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px; border-radius: 8px;
+    background: var(--surface-2); border: 1px solid var(--border);
+    font-size: 13px; color: var(--sky); cursor: default;
+    text-decoration: none;
+  }
+  .sg-link:hover { background: var(--surface-3); }
+  .sg-link-icon { font-size: 14px; flex-shrink: 0; }
+  .sg-link-label { flex: 1; }
+  .sg-link-sub { font-size: 11px; color: var(--text-3); }
+
+  /* motivational quote */
+  .sg-quote {
+    padding: 16px 20px;
+    border-left: 3px solid var(--amber);
+    background: rgba(245,158,11,0.06);
+    border-radius: 0 10px 10px 0;
+    font-size: 14px; color: var(--text-2); line-height: 1.6; font-style: italic;
+  }
+  .sg-quote cite { display: block; margin-top: 8px; font-style: normal; font-family: var(--font-mono); font-size: 10px; color: var(--text-3); }
+
+  /* milestone box */
+  .sg-milestone {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px; border-radius: 10px;
+    background: var(--surface-2); border: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .sg-milestone-icon { font-size: 22px; flex-shrink: 0; }
+  .sg-milestone-text { color: var(--text-2); line-height: 1.5; }
+  .sg-milestone-text strong { color: var(--mint); font-weight: 600; }
+
+  /* topics below suggestions */
+  .topics-section { margin-top: 14px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 0 0 16px 16px; overflow: hidden; }
+  .topics-section-inner { padding: 14px; background: var(--void); display: flex; flex-direction: column; gap: 10px; }
+
+  /* ── TOPIC CARDS ── */
+  .topic-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.2s; }
+  .topic-card:hover { border-color: var(--surface-3); }
+  .topic-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; user-select: none; }
+  .topic-check { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+  .topic-check.checked { background: var(--mint); border-color: var(--mint); }
+  .topic-check.checked::after { content: '✓'; font-size: 11px; color: #000; font-weight: 700; }
+  .topic-name { flex: 1; font-size: 14px; font-weight: 500; color: var(--text-1); transition: color 0.2s; }
+  .topic-name.done { color: var(--text-3); text-decoration: line-through; }
+  .topic-toggle { font-size: 11px; color: var(--text-3); transition: transform 0.2s; margin-left: auto; flex-shrink: 0; }
+  .topic-toggle.open { transform: rotate(180deg); }
+
+  .subtasks { padding: 0 18px 16px 50px; display: none; flex-direction: column; gap: 6px; }
+  .subtasks.open { display: flex; }
+  .subtask-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; border-radius: 8px; background: var(--surface-2); cursor: pointer; transition: background 0.15s; }
   .subtask-item:hover { background: var(--surface-3); }
-
-  .sub-check {
-    width: 16px; height: 16px;
-    border-radius: 4px;
-    border: 2px solid var(--border);
-    background: transparent;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    margin-top: 1px;
-    transition: all 0.2s;
-  }
-
-  .sub-check.checked {
-    background: var(--mint);
-    border-color: var(--mint);
-  }
-
-  .sub-check.checked::after {
-    content: '✓';
-    font-size: 9px;
-    color: #000;
-    font-weight: 700;
-  }
-
+  .sub-check { width: 16px; height: 16px; border-radius: 4px; border: 2px solid var(--border); background: transparent; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; transition: all 0.2s; }
+  .sub-check.checked { background: var(--mint); border-color: var(--mint); }
+  .sub-check.checked::after { content: '✓'; font-size: 9px; color: #000; font-weight: 700; }
   .sub-label { font-size: 13px; color: var(--text-2); line-height: 1.4; }
   .sub-label.done { text-decoration: line-through; color: var(--text-3); }
 
-  /* Sub-sub tasks */
-  .sub-sub-list {
-    display: none;
-    flex-direction: column;
-    gap: 4px;
-    margin-top: 6px;
-    padding-left: 26px;
-  }
-
+  .sub-sub-list { display: none; flex-direction: column; gap: 4px; margin-top: 6px; padding-left: 26px; }
   .sub-sub-list.open { display: flex; }
-
-  .sub-sub-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 6px 10px;
-    border-radius: 6px;
-    background: rgba(255,255,255,0.02);
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
+  .sub-sub-item { display: flex; align-items: flex-start; gap: 8px; padding: 6px 10px; border-radius: 6px; background: rgba(255,255,255,0.02); cursor: pointer; transition: background 0.15s; }
   .sub-sub-item:hover { background: rgba(255,255,255,0.04); }
-
-  .sub-sub-check {
-    width: 13px; height: 13px;
-    border-radius: 3px;
-    border: 1.5px solid var(--border);
-    background: transparent;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    margin-top: 2px;
-    transition: all 0.2s;
-  }
-
-  .sub-sub-check.checked {
-    background: var(--indigo);
-    border-color: var(--indigo);
-  }
-
-  .sub-sub-check.checked::after {
-    content: '✓';
-    font-size: 8px;
-    color: #fff;
-    font-weight: 700;
-  }
-
+  .sub-sub-check { width: 13px; height: 13px; border-radius: 3px; border: 1.5px solid var(--border); background: transparent; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; transition: all 0.2s; }
+  .sub-sub-check.checked { background: var(--indigo); border-color: var(--indigo); }
+  .sub-sub-check.checked::after { content: '✓'; font-size: 8px; color: #fff; font-weight: 700; }
   .sub-sub-label { font-size: 12px; color: var(--text-3); line-height: 1.4; }
   .sub-sub-label.done { text-decoration: line-through; color: var(--surface-3); }
 
-  /* ── DIVIDER TIMELINE ── */
-  .timeline-divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 32px 0 24px;
-    padding-left: 20px;
-  }
+  /* timeline divider */
+  .timeline-divider { display: flex; align-items: center; gap: 12px; margin: 32px 0 20px; }
+  .tl-month { font-family: var(--font-mono); font-size: 11px; color: var(--amber); background: var(--amber-dim); border: 1px solid rgba(245,158,11,0.2); padding: 4px 12px; border-radius: 999px; white-space: nowrap; }
+  .tl-line { flex: 1; height: 1px; background: var(--border); }
 
-  .tl-month {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--amber);
-    background: var(--amber-dim);
-    border: 1px solid rgba(245,158,11,0.2);
-    padding: 4px 12px;
-    border-radius: 999px;
-    white-space: nowrap;
-  }
-
-  .tl-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* ── DAILY ROUTINE ── */
-  .routine-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 12px;
-    margin-top: 20px;
-  }
-
-  .routine-card {
-    background: var(--surface-1);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 18px;
-    text-align: center;
-  }
-
-  .routine-time {
-    font-family: var(--font-mono);
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--mint);
-  }
-
+  /* daily routine */
+  .routine-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 20px; }
+  .routine-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 18px; text-align: center; }
+  .routine-time { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 600; color: var(--mint); }
   .routine-unit { font-size: 12px; color: var(--text-3); }
   .routine-label { font-size: 13px; color: var(--text-2); margin-top: 6px; }
 
-  /* ── RESET BTN ── */
-  .actions-bar {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 40px;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: 1px solid;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.05em;
-  }
-
-  .btn-ghost {
-    background: transparent;
-    border-color: var(--border);
-    color: var(--text-2);
-  }
-
+  /* actions */
+  .actions-bar { display: flex; gap: 10px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+  .btn { font-family: var(--font-mono); font-size: 12px; padding: 10px 20px; border-radius: 8px; border: 1px solid; cursor: pointer; transition: all 0.2s; letter-spacing: 0.05em; }
+  .btn-ghost { background: transparent; border-color: var(--border); color: var(--text-2); }
   .btn-ghost:hover { background: var(--surface-1); color: var(--text-1); }
-
-  .btn-danger {
-    background: transparent;
-    border-color: rgba(248,113,113,0.3);
-    color: var(--rose);
-  }
-
+  .btn-danger { background: transparent; border-color: rgba(248,113,113,0.3); color: var(--rose); }
   .btn-danger:hover { background: var(--rose-dim); }
 
-  /* ── TOAST ── */
-  #toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--surface-2);
-    border: 1px solid var(--mint);
-    color: var(--mint);
-    font-family: var(--font-mono);
-    font-size: 12px;
-    padding: 12px 20px;
-    border-radius: 10px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s;
-    pointer-events: none;
-    z-index: 99999;
-    box-shadow: 0 0 20px rgba(110,231,183,0.15);
-  }
-
+  /* toast */
+  #toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface-2); border: 1px solid var(--mint); color: var(--mint); font-family: var(--font-mono); font-size: 12px; padding: 12px 20px; border-radius: 10px; opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none; z-index: 99999; box-shadow: 0 0 20px rgba(110,231,183,0.15); }
   #toast.show { opacity: 1; transform: translateY(0); }
 
-  /* ── SCROLLBAR ── */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--void); }
   ::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 3px; }
@@ -631,14 +276,13 @@
     .hero-stats { gap: 24px; }
     .phase-header { flex-wrap: wrap; }
     .phase-progress { flex-direction: row; align-items: center; }
-    .topics-grid { padding-left: 0; }
+    .sg-cards { grid-template-columns: 1fr; }
     .subtasks { padding-left: 26px; }
   }
 </style>
 </head>
 <body>
 
-<!-- PROGRESS BAR -->
 <div id="progress-bar-wrap">
   <span class="logo">CSE_ROADMAP</span>
   <div id="progress-track"><div id="progress-fill"></div></div>
@@ -646,32 +290,18 @@
   <span id="progress-count">0/0</span>
 </div>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-eyebrow">1st Year · CSE Batch · 12-Month Journey</div>
   <h1>Build Your <span class="accent">Foundation.</span><br>Own Your <span class="accent-2">Future.</span></h1>
   <p class="hero-sub">শুধু CGPA নয় — Skill-ই তোমার Career-এর সবচেয়ে বড় শক্তি। প্রতিটি চেকবক্স তোমার progress-এর একটি প্রমাণ।</p>
   <div class="hero-stats">
-    <div class="stat">
-      <div class="stat-num"><span id="s-phases">8</span></div>
-      <div class="stat-label">Phases</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num"><span id="s-total">—</span></div>
-      <div class="stat-label">Total Tasks</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num"><span id="s-done">0</span></div>
-      <div class="stat-label">Completed</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num"><span id="s-months">12</span><span class="unit">mo</span></div>
-      <div class="stat-label">Timeline</div>
-    </div>
+    <div class="stat"><div class="stat-num"><span id="s-phases">8</span></div><div class="stat-label">Phases</div></div>
+    <div class="stat"><div class="stat-num"><span id="s-total">—</span></div><div class="stat-label">Total Tasks</div></div>
+    <div class="stat"><div class="stat-num"><span id="s-done">0</span></div><div class="stat-label">Completed</div></div>
+    <div class="stat"><div class="stat-num"><span id="s-months">12</span><span class="unit">mo</span></div><div class="stat-label">Timeline</div></div>
   </div>
 </div>
 
-<!-- ACTIONS -->
 <div class="actions-bar">
   <button class="btn btn-ghost" onclick="expandAll()">▼ Expand All</button>
   <button class="btn btn-ghost" onclick="collapseAll()">▲ Collapse All</button>
@@ -679,10 +309,173 @@
 </div>
 
 <div class="container" id="roadmap-root"></div>
-
 <div id="toast"></div>
 
 <script>
+// ─────────────────────────────────────────────────────────
+// SUGGESTIONS DATA — one object per phase
+// ─────────────────────────────────────────────────────────
+const SUGGESTIONS = {
+  p1: {
+    quote: { text: "The computer was born to solve problems that did not exist before.", cite: "— Bill Gates" },
+    cards: [
+      { type:'do',   title:'✅ DO',   body:'প্রতিদিন Linux terminal-এ কমপক্ষে ৫টি নতুন command practice করো। Muscle memory তৈরি হবে।' },
+      { type:'do',   title:'✅ DO',   body:'VS Code-এ প্রথম দিনেই "Hello World" run করো। ছোট success তোমার confidence বাড়াবে।' },
+      { type:'dont', title:'🚫 DON\'T', body:'Hardware theory মুখস্থ করার দরকার নেই। YouTube-এ teardown video দেখো — visually শেখো।' },
+      { type:'dont', title:'🚫 DON\'T', body:'MS Office শুধু টাইপিং মনে করো না। Template বানাও, shortcut শেখো — efficiency বাড়ে।' },
+      { type:'warn', title:'⚠️ COMMON MISTAKE', body:'অনেকেই Linux skip করে। কিন্তু CSE-তে Server, Cybersecurity, ML সব Linux-based। এখনই শুরু করো।' },
+      { type:'tip',  title:'💡 PRO TIP', body:'Typing speed কম হলে প্রতিদিন ১৫ মিনিট keybr.com-এ practice করো। ৩০ দিনে ৪০ WPM সম্ভব।' },
+    ],
+    resources: [
+      { icon:'▶️', label:'CS50x — Harvard (Free)', sub:'YouTube / edx.org — Best intro to CS', url:'#' },
+      { icon:'▶️', label:'Linux for Beginners', sub:'NetworkChuck on YouTube — Bangla subtitle আছে', url:'#' },
+      { icon:'📖', label:'keybr.com', sub:'Typing speed practice — Free', url:'#' },
+      { icon:'📖', label:'VS Code Official Docs', sub:'code.visualstudio.com/docs', url:'#' },
+    ],
+    milestone: { icon:'🏆', text: 'এই phase শেষে তুমি <strong>Linux terminal</strong> চালাতে পারবে, <strong>VS Code</strong>-এ code করতে পারবে, এবং <strong>40 WPM</strong> typing করতে পারবে।' }
+  },
+  p2: {
+    quote: { text: "Every expert was once a beginner. C programming শেখা কঠিন মনে হবে — কিন্তু এটাই তোমার সব programming-এর ভিত্তি।", cite: "— Senior CSE Mentor" },
+    cards: [
+      { type:'do',   title:'✅ DO',   body:'প্রতিটি topic শেখার পরপরই অন্তত ১৫-২০টি problem solve করো। শুধু পড়লে হবে না — হাতে লিখতে হবে।' },
+      { type:'do',   title:'✅ DO',   body:'Pointers শেখার সময় কাগজে diagram এঁকো। Memory address visually বুঝলে pointer সহজ হয়ে যায়।' },
+      { type:'do',   title:'✅ DO',   body:'প্রতিটি program নিজে type করো — copy-paste করা যাবে না। Typing করলেই syntax মনে থাকে।' },
+      { type:'dont', title:'🚫 DON\'T', body:'একদিনে সব শেখার চেষ্টা করো না। প্রতিদিন একটি topic — সেটি ভালো করে বুঝে তারপর পরের topic।' },
+      { type:'dont', title:'🚫 DON\'T', body:'Error দেখলে ভয় পাবে না। প্রতিটি error একটি শেখার সুযোগ। Error message মনোযোগ দিয়ে পড়ো।' },
+      { type:'warn', title:'⚠️ COMMON MISTAKE', body:'অনেকেই Pointers এবং File Handling skip করে। এগুলো না শিখলে পরে Data Structures বুঝবে না।' },
+      { type:'tip',  title:'💡 PRO TIP',  body:'প্রতিটি program লেখার আগে কাগজে pseudo-code লেখো। Plan > Code — এই habit পরে খুব কাজে আসবে।' },
+      { type:'tip',  title:'💡 PRO TIP',  body:'Recursion বুঝতে সমস্যা হলে "The function calls itself" visualize করো। Factorial দিয়ে শুরু করো।' },
+    ],
+    resources: [
+      { icon:'▶️', label:'CS50 Week 1-5 (C Language)', sub:'YouTube — Harvard Free Course', url:'#' },
+      { icon:'▶️', label:'Programiz C Tutorial', sub:'programiz.com/c-programming', url:'#' },
+      { icon:'📖', label:'HackerRank C Track', sub:'hackerrank.com — 30টি problem solve করো', url:'#' },
+      { icon:'📖', label:'"The C Programming Language"', sub:'Kernighan & Ritchie — Best C Book', url:'#' },
+      { icon:'▶️', label:'Anisul Islam C Playlist', sub:'YouTube — Bangla language tutorial', url:'#' },
+    ],
+    milestone: { icon:'🏆', text:'এই phase শেষে তুমি <strong>200+ C problems</strong> solve করবে, <strong>Pointers</strong> বুঝবে, এবং <strong>5টি mini project</strong> GitHub-এ থাকবে।' }
+  },
+  p3: {
+    quote: { text: "Competitive programming হলো gym-এর মতো। প্রতিদিন না গেলে muscle হবে না — প্রতিদিন solve না করলে brain হবে না।", cite: "— Codeforces Community" },
+    cards: [
+      { type:'do',   title:'✅ DO',   body:'প্রতিদিন কমপক্ষে ১টি problem solve করো। Consistency > Intensity। ৩৬৫ দিন × ১ problem = ৩৬৫ problems।' },
+      { type:'do',   title:'✅ DO',   body:'Problem solve করতে না পারলে ৩০ মিনিট চেষ্টা করো, তারপর editorial/solution দেখো। তারপর নিজে লেখো।' },
+      { type:'do',   title:'✅ DO',   body:'Codeforces-এ contest participate করো — Even if you solve 0 problems। Experience আসে।' },
+      { type:'dont', title:'🚫 DON\'T', body:'Easy problem skip করে Hard problem-এ যেও না। Foundation ছাড়া advanced কখনো টিকবে না।' },
+      { type:'dont', title:'🚫 DON\'T', body:'Solution দেখে "বুঝেছি" ভেবে পরের problem-এ যেও না। দেখার পর নিজে বন্ধ করে লেখো।' },
+      { type:'warn', title:'⚠️ COMMON MISTAKE', body:'শুধু HackerRank-এ solve করলেই হবে না — Codeforces rating বাড়াও। এটাই interview-এ কাজে আসে।' },
+      { type:'tip',  title:'💡 PRO TIP',  body:'প্রতি সপ্তাহে নিজের একটি "problem log" maintain করো — কোন problem কতটুকু সময় লেগেছে, কী শিখেছ।' },
+    ],
+    resources: [
+      { icon:'🌐', label:'Codeforces.com', sub:'Div.3 Contests — Rating <800 থেকে শুরু করো', url:'#' },
+      { icon:'🌐', label:'HackerRank C Track', sub:'Problem Solving section দিয়ে শুরু করো', url:'#' },
+      { icon:'🌐', label:'LeetCode — Easy Problems', sub:'Array, String, Math category দিয়ে শুরু করো', url:'#' },
+      { icon:'▶️', label:'Errichto on YouTube', sub:'Competitive programming mindset — English', url:'#' },
+      { icon:'▶️', label:'CP Vlog — Bangla', sub:'YouTube-এ বাংলায় CP guide', url:'#' },
+    ],
+    milestone: { icon:'🏆', text:'এই phase শেষে তুমি <strong>200+ problems solved</strong>, <strong>Codeforces Rating 800+</strong>, এবং LeetCode-এ <strong>20+ Easy</strong> solve করবে।' }
+  },
+  p4: {
+    quote: { text: "A developer without GitHub is like a writer without a portfolio. তোমার code-ই তোমার CV।", cite: "— GitHub Blog" },
+    cards: [
+      { type:'do',   title:'✅ DO',   body:'প্রতিদিন কমপক্ষে একটি commit করো। GitHub-এর green contribution graph তোমার dedication-এর proof।' },
+      { type:'do',   title:'✅ DO',   body:'প্রতিটি project-এর README.md ভালো করে লেখো — কী project, কীভাবে run করতে হয়, কী শিখেছ।' },
+      { type:'do',   title:'✅ DO',   body:'Commit message meaningful লেখো: "Fix: array index bug in sort function" — না "update" বা "fix"।' },
+      { type:'dont', title:'🚫 DON\'T', body:'Sensitive data (password, API key) কখনো GitHub-এ push করো না। .gitignore ব্যবহার করো।' },
+      { type:'dont', title:'🚫 DON\'T', body:'"আমার project ছোট, GitHub-এ দেওয়ার দরকার নেই" — এই চিন্তা করো না। সব project upload করো।' },
+      { type:'warn', title:'⚠️ COMMON MISTAKE', body:'Merge conflict দেখে ভয় পেয়ে যাওয়া। Practice করলে এটা খুব normal হয়ে যায়। ভয় না।' },
+      { type:'tip',  title:'💡 PRO TIP',  body:'GitHub Profile README বানাও। নিজের skills, projects, এবং "Currently Learning" লেখো। Recruiters দেখেন।' },
+    ],
+    resources: [
+      { icon:'▶️', label:'Git & GitHub Crash Course', sub:'Traversy Media on YouTube — Best intro', url:'#' },
+      { icon:'📖', label:'Git Official Documentation', sub:'git-scm.com/doc — Reference guide', url:'#' },
+      { icon:'🌐', label:'learngitbranching.js.org', sub:'Interactive branching tutorial — Free', url:'#' },
+      { icon:'▶️', label:'GitHub Skills', sub:'skills.github.com — Official free courses', url:'#' },
+    ],
+    milestone: { icon:'🏆', text:'এই phase শেষে তোমার <strong>Active GitHub profile</strong> থাকবে, সব <strong>C projects pushed</strong>, এবং তুমি <strong>PR workflow</strong> জানবে।' }
+  },
+  p5: {
+    quote: { text: "OOP শেখা মানে শুধু syntax শেখা নয় — এটা software-কে real world-এর মতো ভাবতে শেখা।", cite: "— Grady Booch (OOP Pioneer)" },
+    cards: [
+      { type:'do',   title:'✅ DO',   body:'Real-world example দিয়ে শেখো। Class = Blueprint, Object = সেই blueprint থেকে বানানো জিনিস। Car class → Toyota, Honda objects।' },
+      { type:'do',   title:'✅ DO',   body:'চারটি pillar (Encapsulation, Inheritance, Polymorphism, Abstraction) ভালো করে বোঝো। Interview-এ এগুলো অবশ্যই জিজ্ঞেস করা হয়।' },
+      { type:'do',   title:'✅ DO',   body:'Exception handling-কে seriously নাও। Production code-এ try-catch না থাকলে system crash করে।' },
+      { type:'dont', title:'🚫 DON\'T', body:'C পুরোপুরি না শিখে OOP-তে যেও না। OOP C-র উপর বানানো — foundation ছাড়া structure দাঁড়াবে না।' },
+      { type:'dont', title:'🚫 DON\'T', body:'Java এবং C++ দুটো একসাথে শেখার চেষ্টা করো না। একটি বেছে নাও (Java recommended for beginners)।' },
+      { type:'warn', title:'⚠️ COMMON MISTAKE', body:'"this" keyword না বুঝে এগিয়ে যাওয়া। এটা না বুঝলে Constructor এবং Inheritance গুলিয়ে যাবে।' },
+      { type:'tip',  title:'💡 PRO TIP',  body:'UML Class Diagram বানাতে শেখো। Project design করার আগে diagram বানালে code লেখা অনেক সহজ হয়।' },
+    ],
+    resources: [
+      { icon:'▶️', label:'JAVA OOP by Bro Code', sub:'YouTube — Complete OOP in Java (English)', url:'#' },
+      { icon:'▶️', label:'Anisul Islam Java Playlist', sub:'YouTube — Bangla language, very clear', url:'#' },
+      { icon:'📖', label:'"Head First Java" Book', sub:'Most beginner-friendly OOP book', url:'#' },
+      { icon:'🌐', label:'W3Schools Java OOP', sub:'w3schools.com/java — Quick reference', url:'#' },
+    ],
+    milestone: { icon:'🏆', text:'এই phase শেষে তুমি <strong>4টি OOP pillar</strong> ব্যাখ্যা করতে পারবে, <strong>2+ OOP projects</strong> বানাবে, এবং Exception handling জানবে।' }
+  },
+  p6: {
+    quote: { text: "Data is the new oil. SQL হলো সেই engine যা তোমাকে data থেকে value বের করতে শেখাবে।", cite: "— Clive Humby" },
+    cards: [
+      { type:'do',   title:'✅ DO',   body:'প্রতিটি query হাতে type করো। SQL-এর সবচেয়ে ভালো practice হলো real data নিয়ে নিজে query করা।' },
+      { type:'do',   title:'✅ DO',   body:'ER Diagram বানানো শেখো। Database design করার আগে diagram — এটা professional habit।' },
+      { type:'do',   title:'✅ DO',   body:'JOIN practice বেশি করো। Interview-এ ৮০% SQL প্রশ্ন JOIN-এর উপর আসে।' },
+      { type:'dont', title:'🚫 DON\'T', body:'DELETE query-র আগে সবসময় SELECT করে দেখো কী delete হবে। Production-এ ভুল DELETE = disaster।' },
+      { type:'dont', title:'🚫 DON\'T', body:'Normalization skip করো না। Unnormalized database-এ data redundancy এবং inconsistency তৈরি হয়।' },
+      { type:'warn', title:'⚠️ COMMON MISTAKE', body:'NULL handle করতে ভুলে যাওয়া। IS NULL / IS NOT NULL শেখো — WHERE col = NULL কখনো কাজ করে না।' },
+      { type:'tip',  title:'💡 PRO TIP',  body:'SQLZoo.net-এ interactive exercises করো। Real database নিয়ে practice করার সেরা free platform।' },
+    ],
+    resources: [
+      { icon:'🌐', label:'SQLZoo.net', sub:'Interactive SQL exercises — Best free resource', url:'#' },
+      { icon:'🌐', label:'LeetCode SQL Problems', sub:'Database section — 50+ problems', url:'#' },
+      { icon:'▶️', label:'MySQL Tutorial by Mosh', sub:'YouTube — Programming with Mosh', url:'#' },
+      { icon:'📖', label:'W3Schools SQL Reference', sub:'w3schools.com/sql — Quick reference', url:'#' },
+      { icon:'▶️', label:'Anisul Islam MySQL', sub:'YouTube — Bangla SQL tutorial', url:'#' },
+    ],
+    milestone: { icon:'🏆', text:'এই phase শেষে তুমি <strong>Complex JOIN queries</strong> লিখতে পারবে, <strong>Database normalization</strong> বুঝবে, এবং একটি <strong>complete DB project</strong> থাকবে।' }
+  },
+  p7: {
+    quote: { text: "Projects are the proof of your skills. Interview-এ \"আমি C জানি\" বলার চেয়ে \"এই project-টা দেখুন\" বলা ১০০ গুণ বেশি powerful।", cite: "— Tech Hiring Manager" },
+    cards: [
+      { type:'do',   title:'✅ DO',   body:'প্রতিটি project-এ proper documentation লেখো। README, code comments, এবং user manual। এটাই professional।' },
+      { type:'do',   title:'✅ DO',   body:'Project-এ error handling যোগ করো। Invalid input handle করো। Robustness দেখায় যে তুমি serious।' },
+      { type:'do',   title:'✅ DO',   body:'Friend/classmate-কে তোমার project use করতে দাও। Real user feedback সবচেয়ে valuable।' },
+      { type:'dont', title:'🚫 DON\'T', body:'Perfect project বানানোর চেষ্টায় শুরুই করো না — এই trap-এ পড়ো না। MVP first, তারপর improve।' },
+      { type:'dont', title:'🚫 DON\'T', body:'Tutorial project copy করে GitHub-এ দিও না। Recruiters বুঝতে পারে। নিজের idea implement করো।' },
+      { type:'tip',  title:'💡 PRO TIP',  body:'প্রতিটি project-এ version tagging করো (v1.0, v1.1)। Git tag ব্যবহার করো — professional look আসে।' },
+      { type:'tip',  title:'💡 PRO TIP',  body:'Project demo video বানাও (screen recording)। LinkedIn-এ share করো। এটা তোমার visibility অনেক বাড়াবে।' },
+    ],
+    resources: [
+      { icon:'▶️', label:'Project Ideas for Beginners', sub:'GitHub Explore — Real beginner projects', url:'#' },
+      { icon:'📖', label:'How to Write a Good README', sub:'makeareadme.com — Template with examples', url:'#' },
+      { icon:'🌐', label:'draw.io / Excalidraw', sub:'Free tools for system design diagrams', url:'#' },
+    ],
+    milestone: { icon:'🏆', text:'এই phase শেষে তোমার GitHub-এ <strong>3+ complete projects</strong> থাকবে — OOP + DB integrated, documented, এবং <strong>demo-ready</strong>।' }
+  },
+  p8: {
+    quote: { text: "Technical skills তোমাকে interview পর্যন্ত নিয়ে যাবে। Soft skills তোমাকে job এনে দেবে।", cite: "— Harvard Business Review" },
+    cards: [
+      { type:'do',   title:'✅ DO',   body:'LinkedIn-এ প্রতি সপ্তাহে একটি post করো — কী শিখলে, কোন problem solve করলে। Consistency = Visibility।' },
+      { type:'do',   title:'✅ DO',   body:'CV-তে শুধু "C Programming জানি" লেখো না — "Solved 200+ competitive programming problems in C" লেখো। Specific।' },
+      { type:'do',   title:'✅ DO',   body:'Senior CSE students এবং professionals-এর সাথে connect করো। Mentorship-এর জন্য message করতে ভয় পেও না।' },
+      { type:'dont', title:'🚫 DON\'T', body:'CV-তে মিথ্যা skill লেখো না। Interview-এ expose হলে সব শেষ। শুধু যা সত্যিই জানো তাই লেখো।' },
+      { type:'dont', title:'🚫 DON\'T', body:'LinkedIn profile ছাড়া থেকো না। ২০২৬ সালে LinkedIn = Professional identity। আজই বানাও।' },
+      { type:'warn', title:'⚠️ COMMON MISTAKE', body:'Communication skills neglect করা। Bangladesh-এ অনেক talented developer fail করে শুধু communication-এর কারণে।' },
+      { type:'tip',  title:'💡 PRO TIP',  body:'Google Summer of Code, ICPC Bangladesh এর মতো competitions-এ participate করো। Exposure এবং network দুটোই পাবে।' },
+      { type:'tip',  title:'💡 PRO TIP',  body:'প্রতিদিন ১টি English tech article পড়ো (Medium, Dev.to)। Reading speed এবং vocabulary দুটোই বাড়বে।' },
+    ],
+    resources: [
+      { icon:'🌐', label:'LinkedIn Learning (Free 1 month)', sub:'linkedin.com/learning — Professional skills', url:'#' },
+      { icon:'📖', label:'Canva Resume Templates', sub:'canva.com — ATS-friendly CV design', url:'#' },
+      { icon:'🌐', label:'Medium.com / Dev.to', sub:'Tech articles — Read daily', url:'#' },
+      { icon:'▶️', label:'English Communication by Speak Confidently', sub:'YouTube — Practical English for techies', url:'#' },
+    ],
+    milestone: { icon:'🏆', text:'এই phase শেষে তোমার <strong>LinkedIn 500+ connections</strong>, polished <strong>ATS-ready CV</strong>, এবং ৩টি project-এর <strong>demo pitch</strong> তৈরি থাকবে।' }
+  }
+};
+
+// ─────────────────────────────────────────────────────────
+// ROADMAP DATA
+// ─────────────────────────────────────────────────────────
 const ROADMAP = [
   {
     id:'p1', icon:'💻', color:'color-mint',
@@ -691,68 +484,49 @@ const ROADMAP = [
     timeline:'Month 1', time:'Month 1 — Weeks 1–4',
     goal:'Comfortable with hardware, OS, and dev environment',
     topics:[
-      {
-        id:'t1_1', name:'Computer Hardware & Components',
-        subs:[
-          { id:'s1_1_1', name:'Input/Output Devices (Keyboard, Mouse, Monitor, Printer)', subs:[] },
-          { id:'s1_1_2', name:'CPU — Cores, Clock Speed, Cache', subs:[] },
-          { id:'s1_1_3', name:'RAM vs Storage (HDD/SSD)', subs:[] },
-          { id:'s1_1_4', name:'Motherboard & Ports', subs:[] },
-          { id:'s1_1_5', name:'GPU Basics', subs:[] },
-        ]
-      },
-      {
-        id:'t1_2', name:'Operating System Basics (Windows & Linux)',
-        subs:[
-          { id:'s1_2_1', name:'OS কী এবং কীভাবে কাজ করে', subs:[] },
-          { id:'s1_2_2', name:'Windows — File Explorer, Task Manager, Settings', subs:[] },
-          { id:'s1_2_3', name:'Linux Terminal Basic Commands', subs:[ 
-            { id:'ss1_2_3_1', name:'ls, cd, pwd, mkdir, rm, cp, mv' },
-            { id:'ss1_2_3_2', name:'cat, nano, grep, chmod, sudo' },
-            { id:'ss1_2_3_3', name:'Package Manager: apt / yum basics' },
-          ]},
-          { id:'s1_2_4', name:'Dual Boot Setup (Windows + Ubuntu)', subs:[] },
-          { id:'s1_2_5', name:'File Permissions & User Management (Linux)', subs:[] },
-        ]
-      },
-      {
-        id:'t1_3', name:'File Management & Organization',
-        subs:[
-          { id:'s1_3_1', name:'Folder structure best practices', subs:[] },
-          { id:'s1_3_2', name:'File types: .exe, .txt, .pdf, .jpg, .py, .c', subs:[] },
-          { id:'s1_3_3', name:'Zip/Unzip files', subs:[] },
-        ]
-      },
-      {
-        id:'t1_4', name:'Productivity Tools (MS Office / Google Workspace)',
-        subs:[
-          { id:'s1_4_1', name:'MS Word — Formatting, Tables, Headings', subs:[] },
-          { id:'s1_4_2', name:'MS Excel — Basic Formulas, SUM, AVERAGE, IF', subs:[] },
-          { id:'s1_4_3', name:'MS PowerPoint — Slide Design, Animations', subs:[] },
-          { id:'s1_4_4', name:'Google Docs, Sheets, Drive usage', subs:[] },
-        ]
-      },
-      {
-        id:'t1_5', name:'Typing Speed Practice',
-        subs:[
-          { id:'s1_5_1', name:'Target: 30 WPM by Week 2', subs:[] },
-          { id:'s1_5_2', name:'Target: 40 WPM by Week 4', subs:[] },
-          { id:'s1_5_3', name:'Practice on: keybr.com / 10fastfingers.com', subs:[] },
-        ]
-      },
-      {
-        id:'t1_6', name:'VS Code Setup & Workflow',
-        subs:[
-          { id:'s1_6_1', name:'Install VS Code', subs:[] },
-          { id:'s1_6_2', name:'Essential Extensions: C/C++, Prettier, GitLens', subs:[] },
-          { id:'s1_6_3', name:'Keyboard Shortcuts: Ctrl+S, Ctrl+/, Ctrl+P, Ctrl+`', subs:[] },
-          { id:'s1_6_4', name:'Themes & Font Setup (Fira Code, JetBrains Mono)', subs:[] },
-          { id:'s1_6_5', name:'Run first "Hello World" from VS Code', subs:[] },
-        ]
-      },
+      { id:'t1_1', name:'Computer Hardware & Components', subs:[
+        { id:'s1_1_1', name:'Input/Output Devices (Keyboard, Mouse, Monitor, Printer)', subs:[] },
+        { id:'s1_1_2', name:'CPU — Cores, Clock Speed, Cache', subs:[] },
+        { id:'s1_1_3', name:'RAM vs Storage (HDD/SSD)', subs:[] },
+        { id:'s1_1_4', name:'Motherboard & Ports', subs:[] },
+        { id:'s1_1_5', name:'GPU Basics', subs:[] },
+      ]},
+      { id:'t1_2', name:'Operating System Basics (Windows & Linux)', subs:[
+        { id:'s1_2_1', name:'OS কী এবং কীভাবে কাজ করে', subs:[] },
+        { id:'s1_2_2', name:'Windows — File Explorer, Task Manager, Settings', subs:[] },
+        { id:'s1_2_3', name:'Linux Terminal Basic Commands', subs:[
+          { id:'ss1_2_3_1', name:'ls, cd, pwd, mkdir, rm, cp, mv' },
+          { id:'ss1_2_3_2', name:'cat, nano, grep, chmod, sudo' },
+          { id:'ss1_2_3_3', name:'Package Manager: apt / yum basics' },
+        ]},
+        { id:'s1_2_4', name:'Dual Boot Setup (Windows + Ubuntu)', subs:[] },
+        { id:'s1_2_5', name:'File Permissions & User Management (Linux)', subs:[] },
+      ]},
+      { id:'t1_3', name:'File Management & Organization', subs:[
+        { id:'s1_3_1', name:'Folder structure best practices', subs:[] },
+        { id:'s1_3_2', name:'File types: .exe, .txt, .pdf, .jpg, .py, .c', subs:[] },
+        { id:'s1_3_3', name:'Zip/Unzip files', subs:[] },
+      ]},
+      { id:'t1_4', name:'Productivity Tools (MS Office / Google Workspace)', subs:[
+        { id:'s1_4_1', name:'MS Word — Formatting, Tables, Headings', subs:[] },
+        { id:'s1_4_2', name:'MS Excel — Basic Formulas, SUM, AVERAGE, IF', subs:[] },
+        { id:'s1_4_3', name:'MS PowerPoint — Slide Design, Animations', subs:[] },
+        { id:'s1_4_4', name:'Google Docs, Sheets, Drive usage', subs:[] },
+      ]},
+      { id:'t1_5', name:'Typing Speed Practice', subs:[
+        { id:'s1_5_1', name:'Target: 30 WPM by Week 2', subs:[] },
+        { id:'s1_5_2', name:'Target: 40 WPM by Week 4', subs:[] },
+        { id:'s1_5_3', name:'Practice on: keybr.com / 10fastfingers.com', subs:[] },
+      ]},
+      { id:'t1_6', name:'VS Code Setup & Workflow', subs:[
+        { id:'s1_6_1', name:'Install VS Code', subs:[] },
+        { id:'s1_6_2', name:'Essential Extensions: C/C++, Prettier, GitLens', subs:[] },
+        { id:'s1_6_3', name:'Keyboard Shortcuts: Ctrl+S, Ctrl+/, Ctrl+P, Ctrl+`', subs:[] },
+        { id:'s1_6_4', name:'Themes & Font Setup (Fira Code, JetBrains Mono)', subs:[] },
+        { id:'s1_6_5', name:'Run first "Hello World" from VS Code', subs:[] },
+      ]},
     ]
   },
-
   {
     id:'p2', icon:'⚙️', color:'color-indigo',
     step:'Phase 02', title:'C Programming Language',
@@ -760,180 +534,140 @@ const ROADMAP = [
     timeline:'Month 1–3', time:'Month 1–3 — Deep Dive (Primary Focus)',
     goal:'Solve 200+ problems. Build 2 mini-projects.',
     topics:[
-      {
-        id:'t2_1', name:'Setup & First Program',
-        subs:[
-          { id:'s2_1_1', name:'GCC Compiler Install', subs:[] },
-          { id:'s2_1_2', name:'Structure of a C Program', subs:[] },
-          { id:'s2_1_3', name:'#include, main(), return 0', subs:[] },
-          { id:'s2_1_4', name:'Compile & Run: gcc file.c && ./a.out', subs:[] },
-          { id:'s2_1_5', name:'printf("Hello, World!") — First Program ✓', subs:[] },
-        ]
-      },
-      {
-        id:'t2_2', name:'Variables & Data Types',
-        subs:[
-          { id:'s2_2_1', name:'int, float, double, char, long, short', subs:[] },
-          { id:'s2_2_2', name:'Variable Declaration & Initialization', subs:[] },
-          { id:'s2_2_3', name:'sizeof() operator', subs:[] },
-          { id:'s2_2_4', name:'Type Casting (implicit & explicit)', subs:[] },
-          { id:'s2_2_5', name:'Constants: #define & const keyword', subs:[] },
-          { id:'s2_2_6', name:'Format Specifiers: %d, %f, %c, %s, %lf', subs:[] },
-        ]
-      },
-      {
-        id:'t2_3', name:'Operators',
-        subs:[
-          { id:'s2_3_1', name:'Arithmetic Operators (+, -, *, /, %)', subs:[] },
-          { id:'s2_3_2', name:'Relational Operators (==, !=, <, >, <=, >=)', subs:[] },
-          { id:'s2_3_3', name:'Logical Operators (&&, ||, !)', subs:[] },
-          { id:'s2_3_4', name:'Assignment Operators (=, +=, -=, *=, /=)', subs:[] },
-          { id:'s2_3_5', name:'Bitwise Operators (&, |, ^, ~, <<, >>)', subs:[] },
-          { id:'s2_3_6', name:'Increment/Decrement (++, --)', subs:[] },
-          { id:'s2_3_7', name:'Ternary Operator (? :)', subs:[] },
-          { id:'s2_3_8', name:'Operator Precedence & Associativity', subs:[] },
-        ]
-      },
-      {
-        id:'t2_4', name:'Input & Output',
-        subs:[
-          { id:'s2_4_1', name:'printf() — formatted output', subs:[] },
-          { id:'s2_4_2', name:'scanf() — formatted input', subs:[] },
-          { id:'s2_4_3', name:'getchar() & putchar()', subs:[] },
-          { id:'s2_4_4', name:'gets() & puts() (and their dangers)', subs:[] },
-          { id:'s2_4_5', name:'Multiple variable input in one scanf()', subs:[] },
-        ]
-      },
-      {
-        id:'t2_5', name:'Conditional Statements',
-        subs:[
-          { id:'s2_5_1', name:'if statement', subs:[] },
-          { id:'s2_5_2', name:'if-else statement', subs:[] },
-          { id:'s2_5_3', name:'if-else if-else ladder', subs:[] },
-          { id:'s2_5_4', name:'Nested if-else', subs:[] },
-          { id:'s2_5_5', name:'switch-case statement', subs:[] },
-          { id:'s2_5_6', name:'break & default in switch', subs:[] },
-          { id:'s2_5_7', name:'Practice: Grade Calculator, Day Name, Season Finder', subs:[] },
-        ]
-      },
-      {
-        id:'t2_6', name:'Loops',
-        subs:[
-          { id:'s2_6_1', name:'for loop — syntax & use cases', subs:[] },
-          { id:'s2_6_2', name:'while loop', subs:[] },
-          { id:'s2_6_3', name:'do-while loop', subs:[] },
-          { id:'s2_6_4', name:'Nested loops', subs:[] },
-          { id:'s2_6_5', name:'break & continue statements', subs:[] },
-          { id:'s2_6_6', name:'Infinite loops & how to avoid them', subs:[] },
-          { id:'s2_6_7', name:'Pattern Printing', subs:[
-            { id:'ss2_6_7_1', name:'Star Triangle (Right/Left/Pyramid)' },
-            { id:'ss2_6_7_2', name:'Number Patterns' },
-            { id:'ss2_6_7_3', name:'Floyd\'s Triangle' },
-            { id:'ss2_6_7_4', name:'Diamond Pattern' },
-          ]},
-        ]
-      },
-      {
-        id:'t2_7', name:'Functions',
-        subs:[
-          { id:'s2_7_1', name:'Function Declaration, Definition, Call', subs:[] },
-          { id:'s2_7_2', name:'Return types & void functions', subs:[] },
-          { id:'s2_7_3', name:'Function Parameters & Arguments', subs:[] },
-          { id:'s2_7_4', name:'Scope of Variables (local vs global)', subs:[] },
-          { id:'s2_7_5', name:'Recursion — concept & base case', subs:[] },
-          { id:'s2_7_6', name:'Recursive Problems', subs:[
-            { id:'ss2_7_6_1', name:'Factorial using recursion' },
-            { id:'ss2_7_6_2', name:'Fibonacci using recursion' },
-            { id:'ss2_7_6_3', name:'Power function (a^b)' },
-            { id:'ss2_7_6_4', name:'Sum of digits using recursion' },
-          ]},
-          { id:'s2_7_7', name:'Pass by Value', subs:[] },
-          { id:'s2_7_8', name:'Library Functions: math.h, string.h, stdlib.h', subs:[] },
-        ]
-      },
-      {
-        id:'t2_8', name:'Arrays',
-        subs:[
-          { id:'s2_8_1', name:'1D Array — Declaration, Initialization, Access', subs:[] },
-          { id:'s2_8_2', name:'Array Traversal & Modification', subs:[] },
-          { id:'s2_8_3', name:'2D Array (Matrix)', subs:[
-            { id:'ss2_8_3_1', name:'Matrix Input/Output' },
-            { id:'ss2_8_3_2', name:'Matrix Addition & Multiplication' },
-            { id:'ss2_8_3_3', name:'Transpose of a Matrix' },
-          ]},
-          { id:'s2_8_4', name:'Array Searching', subs:[
-            { id:'ss2_8_4_1', name:'Linear Search' },
-            { id:'ss2_8_4_2', name:'Binary Search' },
-          ]},
-          { id:'s2_8_5', name:'Array Sorting', subs:[
-            { id:'ss2_8_5_1', name:'Bubble Sort' },
-            { id:'ss2_8_5_2', name:'Selection Sort' },
-            { id:'ss2_8_5_3', name:'Insertion Sort' },
-          ]},
-          { id:'s2_8_6', name:'Array with Functions', subs:[] },
-        ]
-      },
-      {
-        id:'t2_9', name:'Strings in C',
-        subs:[
-          { id:'s2_9_1', name:'char array vs string', subs:[] },
-          { id:'s2_9_2', name:'String Input: scanf("%s"), fgets()', subs:[] },
-          { id:'s2_9_3', name:'String Functions: strlen, strcpy, strcat, strcmp, strchr, strstr', subs:[] },
-          { id:'s2_9_4', name:'String Reversal', subs:[] },
-          { id:'s2_9_5', name:'Palindrome Check', subs:[] },
-          { id:'s2_9_6', name:'Count vowels, consonants, spaces', subs:[] },
-          { id:'s2_9_7', name:'Convert uppercase ↔ lowercase', subs:[] },
-        ]
-      },
-      {
-        id:'t2_10', name:'Pointers',
-        subs:[
-          { id:'s2_10_1', name:'What is a pointer? (* and & operators)', subs:[] },
-          { id:'s2_10_2', name:'Pointer Declaration & Initialization', subs:[] },
-          { id:'s2_10_3', name:'Dereferencing a pointer', subs:[] },
-          { id:'s2_10_4', name:'Pointer Arithmetic (+, -)', subs:[] },
-          { id:'s2_10_5', name:'Pointer and Arrays', subs:[] },
-          { id:'s2_10_6', name:'Pointer and Functions (Pass by Reference)', subs:[] },
-          { id:'s2_10_7', name:'Pointer to Pointer (**)', subs:[] },
-          { id:'s2_10_8', name:'NULL Pointer & Dangling Pointer', subs:[] },
-          { id:'s2_10_9', name:'Dynamic Memory Allocation: malloc, calloc, realloc, free', subs:[] },
-        ]
-      },
-      {
-        id:'t2_11', name:'Structures & Unions',
-        subs:[
-          { id:'s2_11_1', name:'struct — Declaration & Access', subs:[] },
-          { id:'s2_11_2', name:'Array of Structures', subs:[] },
-          { id:'s2_11_3', name:'Nested Structures', subs:[] },
-          { id:'s2_11_4', name:'Pointer to Structure', subs:[] },
-          { id:'s2_11_5', name:'typedef keyword', subs:[] },
-          { id:'s2_11_6', name:'union — concept & difference from struct', subs:[] },
-        ]
-      },
-      {
-        id:'t2_12', name:'File Handling in C',
-        subs:[
-          { id:'s2_12_1', name:'fopen(), fclose()', subs:[] },
-          { id:'s2_12_2', name:'File Modes: r, w, a, rb, wb', subs:[] },
-          { id:'s2_12_3', name:'fprintf() & fscanf()', subs:[] },
-          { id:'s2_12_4', name:'fgets() & fputs()', subs:[] },
-          { id:'s2_12_5', name:'fseek(), ftell(), rewind()', subs:[] },
-          { id:'s2_12_6', name:'Practice: Student Data Save & Read from file', subs:[] },
-        ]
-      },
-      {
-        id:'t2_13', name:'Mini Projects in C',
-        subs:[
-          { id:'s2_13_1', name:'🧮 Calculator (all operations)', subs:[] },
-          { id:'s2_13_2', name:'👨‍🎓 Student Management System (with file)', subs:[] },
-          { id:'s2_13_3', name:'📚 Library Book Tracker', subs:[] },
-          { id:'s2_13_4', name:'🏦 Simple Banking System', subs:[] },
-          { id:'s2_13_5', name:'❓ Quiz Application (MCQ)', subs:[] },
-        ]
-      },
+      { id:'t2_1', name:'Setup & First Program', subs:[
+        { id:'s2_1_1', name:'GCC Compiler Install', subs:[] },
+        { id:'s2_1_2', name:'Structure of a C Program', subs:[] },
+        { id:'s2_1_3', name:'#include, main(), return 0', subs:[] },
+        { id:'s2_1_4', name:'Compile & Run: gcc file.c && ./a.out', subs:[] },
+        { id:'s2_1_5', name:'printf("Hello, World!") — First Program ✓', subs:[] },
+      ]},
+      { id:'t2_2', name:'Variables & Data Types', subs:[
+        { id:'s2_2_1', name:'int, float, double, char, long, short', subs:[] },
+        { id:'s2_2_2', name:'Variable Declaration & Initialization', subs:[] },
+        { id:'s2_2_3', name:'sizeof() operator', subs:[] },
+        { id:'s2_2_4', name:'Type Casting (implicit & explicit)', subs:[] },
+        { id:'s2_2_5', name:'Constants: #define & const keyword', subs:[] },
+        { id:'s2_2_6', name:'Format Specifiers: %d, %f, %c, %s, %lf', subs:[] },
+      ]},
+      { id:'t2_3', name:'Operators', subs:[
+        { id:'s2_3_1', name:'Arithmetic Operators (+, -, *, /, %)', subs:[] },
+        { id:'s2_3_2', name:'Relational Operators (==, !=, <, >, <=, >=)', subs:[] },
+        { id:'s2_3_3', name:'Logical Operators (&&, ||, !)', subs:[] },
+        { id:'s2_3_4', name:'Assignment Operators (=, +=, -=, *=, /=)', subs:[] },
+        { id:'s2_3_5', name:'Bitwise Operators (&, |, ^, ~, <<, >>)', subs:[] },
+        { id:'s2_3_6', name:'Increment/Decrement (++, --)', subs:[] },
+        { id:'s2_3_7', name:'Ternary Operator (? :)', subs:[] },
+        { id:'s2_3_8', name:'Operator Precedence & Associativity', subs:[] },
+      ]},
+      { id:'t2_4', name:'Input & Output', subs:[
+        { id:'s2_4_1', name:'printf() — formatted output', subs:[] },
+        { id:'s2_4_2', name:'scanf() — formatted input', subs:[] },
+        { id:'s2_4_3', name:'getchar() & putchar()', subs:[] },
+        { id:'s2_4_4', name:'gets() & puts() (and their dangers)', subs:[] },
+        { id:'s2_4_5', name:'Multiple variable input in one scanf()', subs:[] },
+      ]},
+      { id:'t2_5', name:'Conditional Statements', subs:[
+        { id:'s2_5_1', name:'if statement', subs:[] },
+        { id:'s2_5_2', name:'if-else statement', subs:[] },
+        { id:'s2_5_3', name:'if-else if-else ladder', subs:[] },
+        { id:'s2_5_4', name:'Nested if-else', subs:[] },
+        { id:'s2_5_5', name:'switch-case statement', subs:[] },
+        { id:'s2_5_6', name:'break & default in switch', subs:[] },
+        { id:'s2_5_7', name:'Practice: Grade Calculator, Day Name, Season Finder', subs:[] },
+      ]},
+      { id:'t2_6', name:'Loops', subs:[
+        { id:'s2_6_1', name:'for loop — syntax & use cases', subs:[] },
+        { id:'s2_6_2', name:'while loop', subs:[] },
+        { id:'s2_6_3', name:'do-while loop', subs:[] },
+        { id:'s2_6_4', name:'Nested loops', subs:[] },
+        { id:'s2_6_5', name:'break & continue statements', subs:[] },
+        { id:'s2_6_6', name:'Infinite loops & how to avoid them', subs:[] },
+        { id:'s2_6_7', name:'Pattern Printing', subs:[
+          { id:'ss2_6_7_1', name:'Star Triangle (Right/Left/Pyramid)' },
+          { id:'ss2_6_7_2', name:'Number Patterns' },
+          { id:'ss2_6_7_3', name:'Floyd\'s Triangle' },
+          { id:'ss2_6_7_4', name:'Diamond Pattern' },
+        ]},
+      ]},
+      { id:'t2_7', name:'Functions', subs:[
+        { id:'s2_7_1', name:'Function Declaration, Definition, Call', subs:[] },
+        { id:'s2_7_2', name:'Return types & void functions', subs:[] },
+        { id:'s2_7_3', name:'Function Parameters & Arguments', subs:[] },
+        { id:'s2_7_4', name:'Scope of Variables (local vs global)', subs:[] },
+        { id:'s2_7_5', name:'Recursion — concept & base case', subs:[] },
+        { id:'s2_7_6', name:'Recursive Problems', subs:[
+          { id:'ss2_7_6_1', name:'Factorial using recursion' },
+          { id:'ss2_7_6_2', name:'Fibonacci using recursion' },
+          { id:'ss2_7_6_3', name:'Power function (a^b)' },
+          { id:'ss2_7_6_4', name:'Sum of digits using recursion' },
+        ]},
+        { id:'s2_7_7', name:'Pass by Value', subs:[] },
+        { id:'s2_7_8', name:'Library Functions: math.h, string.h, stdlib.h', subs:[] },
+      ]},
+      { id:'t2_8', name:'Arrays', subs:[
+        { id:'s2_8_1', name:'1D Array — Declaration, Initialization, Access', subs:[] },
+        { id:'s2_8_2', name:'Array Traversal & Modification', subs:[] },
+        { id:'s2_8_3', name:'2D Array (Matrix)', subs:[
+          { id:'ss2_8_3_1', name:'Matrix Input/Output' },
+          { id:'ss2_8_3_2', name:'Matrix Addition & Multiplication' },
+          { id:'ss2_8_3_3', name:'Transpose of a Matrix' },
+        ]},
+        { id:'s2_8_4', name:'Array Searching', subs:[
+          { id:'ss2_8_4_1', name:'Linear Search' },
+          { id:'ss2_8_4_2', name:'Binary Search' },
+        ]},
+        { id:'s2_8_5', name:'Array Sorting', subs:[
+          { id:'ss2_8_5_1', name:'Bubble Sort' },
+          { id:'ss2_8_5_2', name:'Selection Sort' },
+          { id:'ss2_8_5_3', name:'Insertion Sort' },
+        ]},
+        { id:'s2_8_6', name:'Array with Functions', subs:[] },
+      ]},
+      { id:'t2_9', name:'Strings in C', subs:[
+        { id:'s2_9_1', name:'char array vs string', subs:[] },
+        { id:'s2_9_2', name:'String Input: scanf("%s"), fgets()', subs:[] },
+        { id:'s2_9_3', name:'String Functions: strlen, strcpy, strcat, strcmp, strchr, strstr', subs:[] },
+        { id:'s2_9_4', name:'String Reversal', subs:[] },
+        { id:'s2_9_5', name:'Palindrome Check', subs:[] },
+        { id:'s2_9_6', name:'Count vowels, consonants, spaces', subs:[] },
+        { id:'s2_9_7', name:'Convert uppercase ↔ lowercase', subs:[] },
+      ]},
+      { id:'t2_10', name:'Pointers', subs:[
+        { id:'s2_10_1', name:'What is a pointer? (* and & operators)', subs:[] },
+        { id:'s2_10_2', name:'Pointer Declaration & Initialization', subs:[] },
+        { id:'s2_10_3', name:'Dereferencing a pointer', subs:[] },
+        { id:'s2_10_4', name:'Pointer Arithmetic (+, -)', subs:[] },
+        { id:'s2_10_5', name:'Pointer and Arrays', subs:[] },
+        { id:'s2_10_6', name:'Pointer and Functions (Pass by Reference)', subs:[] },
+        { id:'s2_10_7', name:'Pointer to Pointer (**)', subs:[] },
+        { id:'s2_10_8', name:'NULL Pointer & Dangling Pointer', subs:[] },
+        { id:'s2_10_9', name:'Dynamic Memory Allocation: malloc, calloc, realloc, free', subs:[] },
+      ]},
+      { id:'t2_11', name:'Structures & Unions', subs:[
+        { id:'s2_11_1', name:'struct — Declaration & Access', subs:[] },
+        { id:'s2_11_2', name:'Array of Structures', subs:[] },
+        { id:'s2_11_3', name:'Nested Structures', subs:[] },
+        { id:'s2_11_4', name:'Pointer to Structure', subs:[] },
+        { id:'s2_11_5', name:'typedef keyword', subs:[] },
+        { id:'s2_11_6', name:'union — concept & difference from struct', subs:[] },
+      ]},
+      { id:'t2_12', name:'File Handling in C', subs:[
+        { id:'s2_12_1', name:'fopen(), fclose()', subs:[] },
+        { id:'s2_12_2', name:'File Modes: r, w, a, rb, wb', subs:[] },
+        { id:'s2_12_3', name:'fprintf() & fscanf()', subs:[] },
+        { id:'s2_12_4', name:'fgets() & fputs()', subs:[] },
+        { id:'s2_12_5', name:'fseek(), ftell(), rewind()', subs:[] },
+        { id:'s2_12_6', name:'Practice: Student Data Save & Read from file', subs:[] },
+      ]},
+      { id:'t2_13', name:'Mini Projects in C', subs:[
+        { id:'s2_13_1', name:'🧮 Calculator (all operations)', subs:[] },
+        { id:'s2_13_2', name:'👨‍🎓 Student Management System (with file)', subs:[] },
+        { id:'s2_13_3', name:'📚 Library Book Tracker', subs:[] },
+        { id:'s2_13_4', name:'🏦 Simple Banking System', subs:[] },
+        { id:'s2_13_5', name:'❓ Quiz Application (MCQ)', subs:[] },
+      ]},
     ]
   },
-
   {
     id:'p3', icon:'🧠', color:'color-amber',
     step:'Phase 03', title:'Problem Solving & Competitive Programming',
@@ -941,57 +675,41 @@ const ROADMAP = [
     timeline:'Month 2–6', time:'Month 2–6 — Ongoing (Daily habit)',
     goal:'200+ problems solved. Codeforces Rating > 800.',
     topics:[
-      {
-        id:'t3_1', name:'Pattern Printing Problems',
-        subs:[
-          { id:'s3_1_1', name:'10 different star/number/alphabet patterns', subs:[] },
-          { id:'s3_1_2', name:'Hollow patterns', subs:[] },
-          { id:'s3_1_3', name:'Diamond & Hourglass', subs:[] },
-        ]
-      },
-      {
-        id:'t3_2', name:'Number Logic Problems',
-        subs:[
-          { id:'s3_2_1', name:'Prime Number Check & Sieve of Eratosthenes', subs:[] },
-          { id:'s3_2_2', name:'Fibonacci Series', subs:[] },
-          { id:'s3_2_3', name:'GCD (Euclidean) & LCM', subs:[] },
-          { id:'s3_2_4', name:'Factorial & Power', subs:[] },
-          { id:'s3_2_5', name:'Armstrong, Perfect, Palindrome Numbers', subs:[] },
-          { id:'s3_2_6', name:'Digit Sum, Digit Count, Digit Reverse', subs:[] },
-        ]
-      },
-      {
-        id:'t3_3', name:'Array & String Problems',
-        subs:[
-          { id:'s3_3_1', name:'Max/Min in array', subs:[] },
-          { id:'s3_3_2', name:'Second largest element', subs:[] },
-          { id:'s3_3_3', name:'Array rotation', subs:[] },
-          { id:'s3_3_4', name:'Duplicate elements', subs:[] },
-          { id:'s3_3_5', name:'Anagram check', subs:[] },
-          { id:'s3_3_6', name:'String reversal & palindrome', subs:[] },
-        ]
-      },
-      {
-        id:'t3_4', name:'Basic Math & Combinatorics',
-        subs:[
-          { id:'s3_4_1', name:'Modular Arithmetic', subs:[] },
-          { id:'s3_4_2', name:'Binary to Decimal & vice versa', subs:[] },
-          { id:'s3_4_3', name:'Permutations & Combinations (nPr, nCr)', subs:[] },
-          { id:'s3_4_4', name:'Prime Factorization', subs:[] },
-        ]
-      },
-      {
-        id:'t3_5', name:'Platform Practice Targets',
-        subs:[
-          { id:'s3_5_1', name:'HackerRank — Complete "C" track (30 challenges)', subs:[] },
-          { id:'s3_5_2', name:'Codeforces — Solve 30 problems (Div.3, Rating <800)', subs:[] },
-          { id:'s3_5_3', name:'LeetCode — Solve 20 Easy problems', subs:[] },
-          { id:'s3_5_4', name:'Reach 200+ total solved problems milestone 🎯', subs:[] },
-        ]
-      },
+      { id:'t3_1', name:'Pattern Printing Problems', subs:[
+        { id:'s3_1_1', name:'10 different star/number/alphabet patterns', subs:[] },
+        { id:'s3_1_2', name:'Hollow patterns', subs:[] },
+        { id:'s3_1_3', name:'Diamond & Hourglass', subs:[] },
+      ]},
+      { id:'t3_2', name:'Number Logic Problems', subs:[
+        { id:'s3_2_1', name:'Prime Number Check & Sieve of Eratosthenes', subs:[] },
+        { id:'s3_2_2', name:'Fibonacci Series', subs:[] },
+        { id:'s3_2_3', name:'GCD (Euclidean) & LCM', subs:[] },
+        { id:'s3_2_4', name:'Factorial & Power', subs:[] },
+        { id:'s3_2_5', name:'Armstrong, Perfect, Palindrome Numbers', subs:[] },
+        { id:'s3_2_6', name:'Digit Sum, Digit Count, Digit Reverse', subs:[] },
+      ]},
+      { id:'t3_3', name:'Array & String Problems', subs:[
+        { id:'s3_3_1', name:'Max/Min in array', subs:[] },
+        { id:'s3_3_2', name:'Second largest element', subs:[] },
+        { id:'s3_3_3', name:'Array rotation', subs:[] },
+        { id:'s3_3_4', name:'Duplicate elements', subs:[] },
+        { id:'s3_3_5', name:'Anagram check', subs:[] },
+        { id:'s3_3_6', name:'String reversal & palindrome', subs:[] },
+      ]},
+      { id:'t3_4', name:'Basic Math & Combinatorics', subs:[
+        { id:'s3_4_1', name:'Modular Arithmetic', subs:[] },
+        { id:'s3_4_2', name:'Binary to Decimal & vice versa', subs:[] },
+        { id:'s3_4_3', name:'Permutations & Combinations (nPr, nCr)', subs:[] },
+        { id:'s3_4_4', name:'Prime Factorization', subs:[] },
+      ]},
+      { id:'t3_5', name:'Platform Practice Targets', subs:[
+        { id:'s3_5_1', name:'HackerRank — Complete "C" track (30 challenges)', subs:[] },
+        { id:'s3_5_2', name:'Codeforces — Solve 30 problems (Div.3, Rating <800)', subs:[] },
+        { id:'s3_5_3', name:'LeetCode — Solve 20 Easy problems', subs:[] },
+        { id:'s3_5_4', name:'Reach 200+ total solved problems milestone 🎯', subs:[] },
+      ]},
     ]
   },
-
   {
     id:'p4', icon:'🌿', color:'color-rose',
     step:'Phase 04', title:'Git & GitHub',
@@ -999,54 +717,41 @@ const ROADMAP = [
     timeline:'Month 3', time:'Month 3 — Weeks 9–10 (then use daily)',
     goal:'Active GitHub profile. All projects pushed.',
     topics:[
-      {
-        id:'t4_1', name:'Git Fundamentals',
-        subs:[
-          { id:'s4_1_1', name:'Version Control কী এবং কেন দরকার', subs:[] },
-          { id:'s4_1_2', name:'Git Install (Windows / Linux)', subs:[] },
-          { id:'s4_1_3', name:'git config (username, email)', subs:[] },
-          { id:'s4_1_4', name:'git init — Initialize repository', subs:[] },
-          { id:'s4_1_5', name:'git status — Check changes', subs:[] },
-          { id:'s4_1_6', name:'git add . — Stage all changes', subs:[] },
-          { id:'s4_1_7', name:'git commit -m "message"', subs:[] },
-          { id:'s4_1_8', name:'git log — View commit history', subs:[] },
-          { id:'s4_1_9', name:'.gitignore file setup', subs:[] },
-        ]
-      },
-      {
-        id:'t4_2', name:'GitHub Remote Workflow',
-        subs:[
-          { id:'s4_2_1', name:'Create GitHub account & profile', subs:[] },
-          { id:'s4_2_2', name:'Create repository (public & private)', subs:[] },
-          { id:'s4_2_3', name:'git remote add origin <URL>', subs:[] },
-          { id:'s4_2_4', name:'git push origin main', subs:[] },
-          { id:'s4_2_5', name:'git pull — Fetch & merge changes', subs:[] },
-          { id:'s4_2_6', name:'git clone — Clone existing repo', subs:[] },
-        ]
-      },
-      {
-        id:'t4_3', name:'Branching & Merging',
-        subs:[
-          { id:'s4_3_1', name:'git branch — List & create branches', subs:[] },
-          { id:'s4_3_2', name:'git checkout -b feature-branch', subs:[] },
-          { id:'s4_3_3', name:'git merge — Merge branches', subs:[] },
-          { id:'s4_3_4', name:'Merge conflicts — How to resolve', subs:[] },
-          { id:'s4_3_5', name:'Pull Requests (PR) on GitHub', subs:[] },
-        ]
-      },
-      {
-        id:'t4_4', name:'Professional GitHub Profile',
-        subs:[
-          { id:'s4_4_1', name:'Write a good README.md (Markdown syntax)', subs:[] },
-          { id:'s4_4_2', name:'GitHub profile README (profile overview)', subs:[] },
-          { id:'s4_4_3', name:'Pin best repositories', subs:[] },
-          { id:'s4_4_4', name:'Green contribution graph — commit daily', subs:[] },
-          { id:'s4_4_5', name:'Upload ALL C projects to GitHub', subs:[] },
-        ]
-      },
+      { id:'t4_1', name:'Git Fundamentals', subs:[
+        { id:'s4_1_1', name:'Version Control কী এবং কেন দরকার', subs:[] },
+        { id:'s4_1_2', name:'Git Install (Windows / Linux)', subs:[] },
+        { id:'s4_1_3', name:'git config (username, email)', subs:[] },
+        { id:'s4_1_4', name:'git init — Initialize repository', subs:[] },
+        { id:'s4_1_5', name:'git status — Check changes', subs:[] },
+        { id:'s4_1_6', name:'git add . — Stage all changes', subs:[] },
+        { id:'s4_1_7', name:'git commit -m "message"', subs:[] },
+        { id:'s4_1_8', name:'git log — View commit history', subs:[] },
+        { id:'s4_1_9', name:'.gitignore file setup', subs:[] },
+      ]},
+      { id:'t4_2', name:'GitHub Remote Workflow', subs:[
+        { id:'s4_2_1', name:'Create GitHub account & profile', subs:[] },
+        { id:'s4_2_2', name:'Create repository (public & private)', subs:[] },
+        { id:'s4_2_3', name:'git remote add origin <URL>', subs:[] },
+        { id:'s4_2_4', name:'git push origin main', subs:[] },
+        { id:'s4_2_5', name:'git pull — Fetch & merge changes', subs:[] },
+        { id:'s4_2_6', name:'git clone — Clone existing repo', subs:[] },
+      ]},
+      { id:'t4_3', name:'Branching & Merging', subs:[
+        { id:'s4_3_1', name:'git branch — List & create branches', subs:[] },
+        { id:'s4_3_2', name:'git checkout -b feature-branch', subs:[] },
+        { id:'s4_3_3', name:'git merge — Merge branches', subs:[] },
+        { id:'s4_3_4', name:'Merge conflicts — How to resolve', subs:[] },
+        { id:'s4_3_5', name:'Pull Requests (PR) on GitHub', subs:[] },
+      ]},
+      { id:'t4_4', name:'Professional GitHub Profile', subs:[
+        { id:'s4_4_1', name:'Write a good README.md (Markdown syntax)', subs:[] },
+        { id:'s4_4_2', name:'GitHub profile README (profile overview)', subs:[] },
+        { id:'s4_4_3', name:'Pin best repositories', subs:[] },
+        { id:'s4_4_4', name:'Green contribution graph — commit daily', subs:[] },
+        { id:'s4_4_5', name:'Upload ALL C projects to GitHub', subs:[] },
+      ]},
     ]
   },
-
   {
     id:'p5', icon:'🏗️', color:'color-sky',
     step:'Phase 05', title:'Object-Oriented Programming (OOP)',
@@ -1054,89 +759,61 @@ const ROADMAP = [
     timeline:'Month 4–6', time:'Month 4–6 — 3 months focus',
     goal:'Build 2 OOP projects demonstrating all 4 pillars.',
     topics:[
-      {
-        id:'t5_1', name:'Intro to OOP & Java/C++ Setup',
-        subs:[
-          { id:'s5_1_1', name:'Procedural vs Object-Oriented paradigm', subs:[] },
-          { id:'s5_1_2', name:'Install JDK / g++ compiler', subs:[] },
-          { id:'s5_1_3', name:'Write first Java class / C++ class', subs:[] },
-        ]
-      },
-      {
-        id:'t5_2', name:'Classes & Objects',
-        subs:[
-          { id:'s5_2_1', name:'Class definition — attributes & methods', subs:[] },
-          { id:'s5_2_2', name:'Object creation & memory', subs:[] },
-          { id:'s5_2_3', name:'Access Modifiers: public, private, protected', subs:[] },
-          { id:'s5_2_4', name:'this keyword', subs:[] },
-          { id:'s5_2_5', name:'static keyword — class-level members', subs:[] },
-        ]
-      },
-      {
-        id:'t5_3', name:'Constructors & Destructors',
-        subs:[
-          { id:'s5_3_1', name:'Default Constructor', subs:[] },
-          { id:'s5_3_2', name:'Parameterized Constructor', subs:[] },
-          { id:'s5_3_3', name:'Copy Constructor', subs:[] },
-          { id:'s5_3_4', name:'Destructor (~) — C++ / finalize — Java', subs:[] },
-          { id:'s5_3_5', name:'Constructor Overloading', subs:[] },
-        ]
-      },
-      {
-        id:'t5_4', name:'Encapsulation',
-        subs:[
-          { id:'s5_4_1', name:'Data hiding with private fields', subs:[] },
-          { id:'s5_4_2', name:'Getters & Setters', subs:[] },
-          { id:'s5_4_3', name:'Why encapsulation? Real-world example', subs:[] },
-        ]
-      },
-      {
-        id:'t5_5', name:'Inheritance',
-        subs:[
-          { id:'s5_5_1', name:'Single Inheritance', subs:[] },
-          { id:'s5_5_2', name:'Multilevel Inheritance', subs:[] },
-          { id:'s5_5_3', name:'Hierarchical Inheritance', subs:[] },
-          { id:'s5_5_4', name:'super / parent keyword', subs:[] },
-          { id:'s5_5_5', name:'Method Overriding', subs:[] },
-          { id:'s5_5_6', name:'final keyword to prevent inheritance', subs:[] },
-        ]
-      },
-      {
-        id:'t5_6', name:'Polymorphism',
-        subs:[
-          { id:'s5_6_1', name:'Compile-time (Method Overloading)', subs:[] },
-          { id:'s5_6_2', name:'Runtime (Method Overriding)', subs:[] },
-          { id:'s5_6_3', name:'Virtual Functions (C++)', subs:[] },
-          { id:'s5_6_4', name:'Abstract classes & methods', subs:[] },
-        ]
-      },
-      {
-        id:'t5_7', name:'Abstraction & Interfaces',
-        subs:[
-          { id:'s5_7_1', name:'Abstract class vs Interface', subs:[] },
-          { id:'s5_7_2', name:'Implementing interfaces', subs:[] },
-          { id:'s5_7_3', name:'Multiple interface implementation', subs:[] },
-        ]
-      },
-      {
-        id:'t5_8', name:'Exception Handling',
-        subs:[
-          { id:'s5_8_1', name:'try-catch-finally block', subs:[] },
-          { id:'s5_8_2', name:'throw & throws', subs:[] },
-          { id:'s5_8_3', name:'Custom Exceptions', subs:[] },
-        ]
-      },
-      {
-        id:'t5_9', name:'OOP Projects',
-        subs:[
-          { id:'s5_9_1', name:'🏥 Hospital Management System', subs:[] },
-          { id:'s5_9_2', name:'🛒 Simple E-commerce Cart System', subs:[] },
-          { id:'s5_9_3', name:'🎓 University Student Portal', subs:[] },
-        ]
-      },
+      { id:'t5_1', name:'Intro to OOP & Java/C++ Setup', subs:[
+        { id:'s5_1_1', name:'Procedural vs Object-Oriented paradigm', subs:[] },
+        { id:'s5_1_2', name:'Install JDK / g++ compiler', subs:[] },
+        { id:'s5_1_3', name:'Write first Java class / C++ class', subs:[] },
+      ]},
+      { id:'t5_2', name:'Classes & Objects', subs:[
+        { id:'s5_2_1', name:'Class definition — attributes & methods', subs:[] },
+        { id:'s5_2_2', name:'Object creation & memory', subs:[] },
+        { id:'s5_2_3', name:'Access Modifiers: public, private, protected', subs:[] },
+        { id:'s5_2_4', name:'this keyword', subs:[] },
+        { id:'s5_2_5', name:'static keyword — class-level members', subs:[] },
+      ]},
+      { id:'t5_3', name:'Constructors & Destructors', subs:[
+        { id:'s5_3_1', name:'Default Constructor', subs:[] },
+        { id:'s5_3_2', name:'Parameterized Constructor', subs:[] },
+        { id:'s5_3_3', name:'Copy Constructor', subs:[] },
+        { id:'s5_3_4', name:'Destructor (~) — C++ / finalize — Java', subs:[] },
+        { id:'s5_3_5', name:'Constructor Overloading', subs:[] },
+      ]},
+      { id:'t5_4', name:'Encapsulation', subs:[
+        { id:'s5_4_1', name:'Data hiding with private fields', subs:[] },
+        { id:'s5_4_2', name:'Getters & Setters', subs:[] },
+        { id:'s5_4_3', name:'Why encapsulation? Real-world example', subs:[] },
+      ]},
+      { id:'t5_5', name:'Inheritance', subs:[
+        { id:'s5_5_1', name:'Single Inheritance', subs:[] },
+        { id:'s5_5_2', name:'Multilevel Inheritance', subs:[] },
+        { id:'s5_5_3', name:'Hierarchical Inheritance', subs:[] },
+        { id:'s5_5_4', name:'super / parent keyword', subs:[] },
+        { id:'s5_5_5', name:'Method Overriding', subs:[] },
+        { id:'s5_5_6', name:'final keyword to prevent inheritance', subs:[] },
+      ]},
+      { id:'t5_6', name:'Polymorphism', subs:[
+        { id:'s5_6_1', name:'Compile-time (Method Overloading)', subs:[] },
+        { id:'s5_6_2', name:'Runtime (Method Overriding)', subs:[] },
+        { id:'s5_6_3', name:'Virtual Functions (C++)', subs:[] },
+        { id:'s5_6_4', name:'Abstract classes & methods', subs:[] },
+      ]},
+      { id:'t5_7', name:'Abstraction & Interfaces', subs:[
+        { id:'s5_7_1', name:'Abstract class vs Interface', subs:[] },
+        { id:'s5_7_2', name:'Implementing interfaces', subs:[] },
+        { id:'s5_7_3', name:'Multiple interface implementation', subs:[] },
+      ]},
+      { id:'t5_8', name:'Exception Handling', subs:[
+        { id:'s5_8_1', name:'try-catch-finally block', subs:[] },
+        { id:'s5_8_2', name:'throw & throws', subs:[] },
+        { id:'s5_8_3', name:'Custom Exceptions', subs:[] },
+      ]},
+      { id:'t5_9', name:'OOP Projects', subs:[
+        { id:'s5_9_1', name:'🏥 Hospital Management System', subs:[] },
+        { id:'s5_9_2', name:'🛒 Simple E-commerce Cart System', subs:[] },
+        { id:'s5_9_3', name:'🎓 University Student Portal', subs:[] },
+      ]},
     ]
   },
-
   {
     id:'p6', icon:'🗄️', color:'color-violet',
     step:'Phase 06', title:'Database & SQL',
@@ -1144,77 +821,55 @@ const ROADMAP = [
     timeline:'Month 7–8', time:'Month 7–8 — 2 months',
     goal:'Design and build a complete relational database project.',
     topics:[
-      {
-        id:'t6_1', name:'Database Fundamentals',
-        subs:[
-          { id:'s6_1_1', name:'Database কী? DBMS vs RDBMS', subs:[] },
-          { id:'s6_1_2', name:'Tables, Rows, Columns', subs:[] },
-          { id:'s6_1_3', name:'Primary Key, Foreign Key, Unique Key', subs:[] },
-          { id:'s6_1_4', name:'Entity-Relationship (ER) Diagram', subs:[] },
-          { id:'s6_1_5', name:'Normalization — 1NF, 2NF, 3NF', subs:[] },
-        ]
-      },
-      {
-        id:'t6_2', name:'MySQL Setup',
-        subs:[
-          { id:'s6_2_1', name:'Install MySQL / XAMPP / MySQL Workbench', subs:[] },
-          { id:'s6_2_2', name:'Connect to MySQL via terminal & GUI', subs:[] },
-          { id:'s6_2_3', name:'Create Database & Show Databases', subs:[] },
-        ]
-      },
-      {
-        id:'t6_3', name:'DDL (Data Definition Language)',
-        subs:[
-          { id:'s6_3_1', name:'CREATE TABLE with data types', subs:[] },
-          { id:'s6_3_2', name:'ALTER TABLE (add/modify/drop column)', subs:[] },
-          { id:'s6_3_3', name:'DROP TABLE & TRUNCATE', subs:[] },
-          { id:'s6_3_4', name:'Constraints: NOT NULL, UNIQUE, DEFAULT, CHECK', subs:[] },
-        ]
-      },
-      {
-        id:'t6_4', name:'DML — CRUD Operations',
-        subs:[
-          { id:'s6_4_1', name:'INSERT INTO — Single & Multiple rows', subs:[] },
-          { id:'s6_4_2', name:'SELECT — Basic queries', subs:[] },
-          { id:'s6_4_3', name:'UPDATE — Modify existing records', subs:[] },
-          { id:'s6_4_4', name:'DELETE — Remove records safely', subs:[] },
-        ]
-      },
-      {
-        id:'t6_5', name:'Advanced SELECT Queries',
-        subs:[
-          { id:'s6_5_1', name:'WHERE clause — Conditions', subs:[] },
-          { id:'s6_5_2', name:'ORDER BY (ASC / DESC)', subs:[] },
-          { id:'s6_5_3', name:'GROUP BY & HAVING', subs:[] },
-          { id:'s6_5_4', name:'LIMIT & OFFSET', subs:[] },
-          { id:'s6_5_5', name:'DISTINCT keyword', subs:[] },
-          { id:'s6_5_6', name:'Wildcards: LIKE, %, _', subs:[] },
-          { id:'s6_5_7', name:'Aggregate Functions: COUNT, SUM, AVG, MIN, MAX', subs:[] },
-          { id:'s6_5_8', name:'Subqueries (Nested SELECT)', subs:[] },
-        ]
-      },
-      {
-        id:'t6_6', name:'JOINs',
-        subs:[
-          { id:'s6_6_1', name:'INNER JOIN', subs:[] },
-          { id:'s6_6_2', name:'LEFT JOIN / RIGHT JOIN', subs:[] },
-          { id:'s6_6_3', name:'FULL OUTER JOIN', subs:[] },
-          { id:'s6_6_4', name:'SELF JOIN', subs:[] },
-          { id:'s6_6_5', name:'CROSS JOIN', subs:[] },
-          { id:'s6_6_6', name:'JOIN with 3+ tables', subs:[] },
-        ]
-      },
-      {
-        id:'t6_7', name:'Database Projects',
-        subs:[
-          { id:'s6_7_1', name:'📚 Library Management DB', subs:[] },
-          { id:'s6_7_2', name:'🏥 Hospital Patient Records DB', subs:[] },
-          { id:'s6_7_3', name:'🏫 University Result Processing DB', subs:[] },
-        ]
-      },
+      { id:'t6_1', name:'Database Fundamentals', subs:[
+        { id:'s6_1_1', name:'Database কী? DBMS vs RDBMS', subs:[] },
+        { id:'s6_1_2', name:'Tables, Rows, Columns', subs:[] },
+        { id:'s6_1_3', name:'Primary Key, Foreign Key, Unique Key', subs:[] },
+        { id:'s6_1_4', name:'Entity-Relationship (ER) Diagram', subs:[] },
+        { id:'s6_1_5', name:'Normalization — 1NF, 2NF, 3NF', subs:[] },
+      ]},
+      { id:'t6_2', name:'MySQL Setup', subs:[
+        { id:'s6_2_1', name:'Install MySQL / XAMPP / MySQL Workbench', subs:[] },
+        { id:'s6_2_2', name:'Connect to MySQL via terminal & GUI', subs:[] },
+        { id:'s6_2_3', name:'Create Database & Show Databases', subs:[] },
+      ]},
+      { id:'t6_3', name:'DDL (Data Definition Language)', subs:[
+        { id:'s6_3_1', name:'CREATE TABLE with data types', subs:[] },
+        { id:'s6_3_2', name:'ALTER TABLE (add/modify/drop column)', subs:[] },
+        { id:'s6_3_3', name:'DROP TABLE & TRUNCATE', subs:[] },
+        { id:'s6_3_4', name:'Constraints: NOT NULL, UNIQUE, DEFAULT, CHECK', subs:[] },
+      ]},
+      { id:'t6_4', name:'DML — CRUD Operations', subs:[
+        { id:'s6_4_1', name:'INSERT INTO — Single & Multiple rows', subs:[] },
+        { id:'s6_4_2', name:'SELECT — Basic queries', subs:[] },
+        { id:'s6_4_3', name:'UPDATE — Modify existing records', subs:[] },
+        { id:'s6_4_4', name:'DELETE — Remove records safely', subs:[] },
+      ]},
+      { id:'t6_5', name:'Advanced SELECT Queries', subs:[
+        { id:'s6_5_1', name:'WHERE clause — Conditions', subs:[] },
+        { id:'s6_5_2', name:'ORDER BY (ASC / DESC)', subs:[] },
+        { id:'s6_5_3', name:'GROUP BY & HAVING', subs:[] },
+        { id:'s6_5_4', name:'LIMIT & OFFSET', subs:[] },
+        { id:'s6_5_5', name:'DISTINCT keyword', subs:[] },
+        { id:'s6_5_6', name:'Wildcards: LIKE, %, _', subs:[] },
+        { id:'s6_5_7', name:'Aggregate Functions: COUNT, SUM, AVG, MIN, MAX', subs:[] },
+        { id:'s6_5_8', name:'Subqueries (Nested SELECT)', subs:[] },
+      ]},
+      { id:'t6_6', name:'JOINs', subs:[
+        { id:'s6_6_1', name:'INNER JOIN', subs:[] },
+        { id:'s6_6_2', name:'LEFT JOIN / RIGHT JOIN', subs:[] },
+        { id:'s6_6_3', name:'FULL OUTER JOIN', subs:[] },
+        { id:'s6_6_4', name:'SELF JOIN', subs:[] },
+        { id:'s6_6_5', name:'CROSS JOIN', subs:[] },
+        { id:'s6_6_6', name:'JOIN with 3+ tables', subs:[] },
+      ]},
+      { id:'t6_7', name:'Database Projects', subs:[
+        { id:'s6_7_1', name:'📚 Library Management DB', subs:[] },
+        { id:'s6_7_2', name:'🏥 Hospital Patient Records DB', subs:[] },
+        { id:'s6_7_3', name:'🏫 University Result Processing DB', subs:[] },
+      ]},
     ]
   },
-
   {
     id:'p7', icon:'🛠️', color:'color-mint2',
     step:'Phase 07', title:'Final Projects Portfolio',
@@ -1222,41 +877,31 @@ const ROADMAP = [
     timeline:'Month 9–11', time:'Month 9–11 — Build & Polish',
     goal:'3 complete projects live on GitHub with documentation.',
     topics:[
-      {
-        id:'t7_1', name:'Result Processing System',
-        subs:[
-          { id:'s7_1_1', name:'OOP design: Student, Subject, Result classes', subs:[] },
-          { id:'s7_1_2', name:'MySQL database integration', subs:[] },
-          { id:'s7_1_3', name:'CRUD for student records', subs:[] },
-          { id:'s7_1_4', name:'GPA calculation logic', subs:[] },
-          { id:'s7_1_5', name:'Report generation to file', subs:[] },
-          { id:'s7_1_6', name:'GitHub upload with README', subs:[] },
-        ]
-      },
-      {
-        id:'t7_2', name:'Banking System',
-        subs:[
-          { id:'s7_2_1', name:'Account creation with unique ID', subs:[] },
-          { id:'s7_2_2', name:'Deposit, Withdraw, Transfer', subs:[] },
-          { id:'s7_2_3', name:'Transaction history (file/DB)', subs:[] },
-          { id:'s7_2_4', name:'Balance validation & error handling', subs:[] },
-          { id:'s7_2_5', name:'Login system with password', subs:[] },
-        ]
-      },
-      {
-        id:'t7_3', name:'Library Management System',
-        subs:[
-          { id:'s7_3_1', name:'Book add, remove, search, update', subs:[] },
-          { id:'s7_3_2', name:'Member management', subs:[] },
-          { id:'s7_3_3', name:'Issue & Return tracking', subs:[] },
-          { id:'s7_3_4', name:'Fine calculation for late return', subs:[] },
-          { id:'s7_3_5', name:'Database with MySQL', subs:[] },
-          { id:'s7_3_6', name:'Full documentation on GitHub', subs:[] },
-        ]
-      },
+      { id:'t7_1', name:'Result Processing System', subs:[
+        { id:'s7_1_1', name:'OOP design: Student, Subject, Result classes', subs:[] },
+        { id:'s7_1_2', name:'MySQL database integration', subs:[] },
+        { id:'s7_1_3', name:'CRUD for student records', subs:[] },
+        { id:'s7_1_4', name:'GPA calculation logic', subs:[] },
+        { id:'s7_1_5', name:'Report generation to file', subs:[] },
+        { id:'s7_1_6', name:'GitHub upload with README', subs:[] },
+      ]},
+      { id:'t7_2', name:'Banking System', subs:[
+        { id:'s7_2_1', name:'Account creation with unique ID', subs:[] },
+        { id:'s7_2_2', name:'Deposit, Withdraw, Transfer', subs:[] },
+        { id:'s7_2_3', name:'Transaction history (file/DB)', subs:[] },
+        { id:'s7_2_4', name:'Balance validation & error handling', subs:[] },
+        { id:'s7_2_5', name:'Login system with password', subs:[] },
+      ]},
+      { id:'t7_3', name:'Library Management System', subs:[
+        { id:'s7_3_1', name:'Book add, remove, search, update', subs:[] },
+        { id:'s7_3_2', name:'Member management', subs:[] },
+        { id:'s7_3_3', name:'Issue & Return tracking', subs:[] },
+        { id:'s7_3_4', name:'Fine calculation for late return', subs:[] },
+        { id:'s7_3_5', name:'Database with MySQL', subs:[] },
+        { id:'s7_3_6', name:'Full documentation on GitHub', subs:[] },
+      ]},
     ]
   },
-
   {
     id:'p8', icon:'🌍', color:'color-amber2',
     step:'Phase 08', title:'Communication & Professional Skills',
@@ -1264,74 +909,141 @@ const ROADMAP = [
     timeline:'Month 1–12', time:'Ongoing throughout the year',
     goal:'Job-ready profile. 500+ LinkedIn connections. CV ready.',
     topics:[
-      {
-        id:'t8_1', name:'English Communication',
-        subs:[
-          { id:'s8_1_1', name:'Daily English speaking practice (10 min/day)', subs:[] },
-          { id:'s8_1_2', name:'Read 1 English tech article/day', subs:[] },
-          { id:'s8_1_3', name:'Write code comments in English', subs:[] },
-          { id:'s8_1_4', name:'Watch YouTube tutorials in English (no subs)', subs:[] },
-          { id:'s8_1_5', name:'Learn 5 new tech terms per week', subs:[] },
-        ]
-      },
-      {
-        id:'t8_2', name:'LinkedIn Profile',
-        subs:[
-          { id:'s8_2_1', name:'Professional profile photo', subs:[] },
-          { id:'s8_2_2', name:'Headline: "CSE Student | C Programmer | Problem Solver"', subs:[] },
-          { id:'s8_2_3', name:'About section — 150 words about your journey', subs:[] },
-          { id:'s8_2_4', name:'Education section', subs:[] },
-          { id:'s8_2_5', name:'Skills section (C, SQL, Git, Problem Solving)', subs:[] },
-          { id:'s8_2_6', name:'Featured: Link to GitHub projects', subs:[] },
-          { id:'s8_2_7', name:'500+ connections milestone', subs:[] },
-          { id:'s8_2_8', name:'Post 1 tech update per week', subs:[] },
-        ]
-      },
-      {
-        id:'t8_3', name:'CV / Resume Writing',
-        subs:[
-          { id:'s8_3_1', name:'ATS-friendly CV format', subs:[] },
-          { id:'s8_3_2', name:'One-page CV structure', subs:[] },
-          { id:'s8_3_3', name:'Education, Skills, Projects sections', subs:[] },
-          { id:'s8_3_4', name:'Quantify achievements: "Solved 200+ problems"', subs:[] },
-          { id:'s8_3_5', name:'Get CV reviewed by a senior', subs:[] },
-        ]
-      },
-      {
-        id:'t8_4', name:'Presentation Skills',
-        subs:[
-          { id:'s8_4_1', name:'Make 1 presentation about your project', subs:[] },
-          { id:'s8_4_2', name:'Present to classmates / batch', subs:[] },
-          { id:'s8_4_3', name:'Participate in department seminar', subs:[] },
-        ]
-      },
-      {
-        id:'t8_5', name:'Time Management',
-        subs:[
-          { id:'s8_5_1', name:'Follow daily 4-hour study routine', subs:[] },
-          { id:'s8_5_2', name:'Use Google Calendar / Notion for planning', subs:[] },
-          { id:'s8_5_3', name:'Weekly review every Sunday', subs:[] },
-          { id:'s8_5_4', name:'No-phone 2-hour deep work sessions', subs:[] },
-        ]
-      },
+      { id:'t8_1', name:'English Communication', subs:[
+        { id:'s8_1_1', name:'Daily English speaking practice (10 min/day)', subs:[] },
+        { id:'s8_1_2', name:'Read 1 English tech article/day', subs:[] },
+        { id:'s8_1_3', name:'Write code comments in English', subs:[] },
+        { id:'s8_1_4', name:'Watch YouTube tutorials in English (no subs)', subs:[] },
+        { id:'s8_1_5', name:'Learn 5 new tech terms per week', subs:[] },
+      ]},
+      { id:'t8_2', name:'LinkedIn Profile', subs:[
+        { id:'s8_2_1', name:'Professional profile photo', subs:[] },
+        { id:'s8_2_2', name:'Headline: "CSE Student | C Programmer | Problem Solver"', subs:[] },
+        { id:'s8_2_3', name:'About section — 150 words about your journey', subs:[] },
+        { id:'s8_2_4', name:'Education section', subs:[] },
+        { id:'s8_2_5', name:'Skills section (C, SQL, Git, Problem Solving)', subs:[] },
+        { id:'s8_2_6', name:'Featured: Link to GitHub projects', subs:[] },
+        { id:'s8_2_7', name:'500+ connections milestone', subs:[] },
+        { id:'s8_2_8', name:'Post 1 tech update per week', subs:[] },
+      ]},
+      { id:'t8_3', name:'CV / Resume Writing', subs:[
+        { id:'s8_3_1', name:'ATS-friendly CV format', subs:[] },
+        { id:'s8_3_2', name:'One-page CV structure', subs:[] },
+        { id:'s8_3_3', name:'Education, Skills, Projects sections', subs:[] },
+        { id:'s8_3_4', name:'Quantify achievements: "Solved 200+ problems"', subs:[] },
+        { id:'s8_3_5', name:'Get CV reviewed by a senior', subs:[] },
+      ]},
+      { id:'t8_4', name:'Presentation Skills', subs:[
+        { id:'s8_4_1', name:'Make 1 presentation about your project', subs:[] },
+        { id:'s8_4_2', name:'Present to classmates / batch', subs:[] },
+        { id:'s8_4_3', name:'Participate in department seminar', subs:[] },
+      ]},
+      { id:'t8_5', name:'Time Management', subs:[
+        { id:'s8_5_1', name:'Follow daily 4-hour study routine', subs:[] },
+        { id:'s8_5_2', name:'Use Google Calendar / Notion for planning', subs:[] },
+        { id:'s8_5_3', name:'Weekly review every Sunday', subs:[] },
+        { id:'s8_5_4', name:'No-phone 2-hour deep work sessions', subs:[] },
+      ]},
     ]
   },
 ];
 
-// ── STATE ──
-let state = JSON.parse(localStorage.getItem('cse_roadmap_v3') || '{}');
-
-function saveState() { localStorage.setItem('cse_roadmap_v3', JSON.stringify(state)); }
-
+// ─────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────
+let state = JSON.parse(localStorage.getItem('cse_roadmap_v4') || '{}');
+function saveState() { localStorage.setItem('cse_roadmap_v4', JSON.stringify(state)); }
 function isChecked(id) { return !!state[id]; }
+function toggleCheck(id) { state[id] = !state[id]; saveState(); updateUI(); }
 
-function toggleCheck(id) {
-  state[id] = !state[id];
-  saveState();
-  updateUI();
+// ─────────────────────────────────────────────────────────
+// RENDER SUGGESTIONS
+// ─────────────────────────────────────────────────────────
+function renderSuggestions(phaseId) {
+  const sg = SUGGESTIONS[phaseId];
+  if (!sg) return null;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'suggestions-wrap';
+
+  const toggle = document.createElement('div');
+  toggle.className = `suggestions-toggle ${state['sg_open_'+phaseId] ? 'open' : ''}`;
+  toggle.innerHTML = `<span class="sg-icon">💡</span><span class="sg-label">Mentor Suggestions & Resources</span><span class="sg-arrow">▼</span>`;
+  toggle.onclick = () => {
+    state['sg_open_'+phaseId] = !state['sg_open_'+phaseId];
+    saveState();
+    toggle.classList.toggle('open', !!state['sg_open_'+phaseId]);
+    body.classList.toggle('open', !!state['sg_open_'+phaseId]);
+  };
+
+  const body = document.createElement('div');
+  body.className = `suggestions-body ${state['sg_open_'+phaseId] ? 'open' : ''}`;
+
+  // Quote
+  if (sg.quote) {
+    const q = document.createElement('blockquote');
+    q.className = 'sg-quote';
+    q.innerHTML = `"${sg.quote.text}"<cite>${sg.quote.cite}</cite>`;
+    body.appendChild(q);
+  }
+
+  // Cards
+  if (sg.cards && sg.cards.length) {
+    const secTitle = document.createElement('div');
+    secTitle.className = 'sg-section-title';
+    secTitle.textContent = 'Tips, Warnings & Best Practices';
+    body.appendChild(secTitle);
+
+    const grid = document.createElement('div');
+    grid.className = 'sg-cards';
+    sg.cards.forEach(c => {
+      const card = document.createElement('div');
+      card.className = `sg-card ${c.type}`;
+      card.innerHTML = `<div class="sg-card-tag">${c.title}</div><div class="sg-card-body">${c.body}</div>`;
+      grid.appendChild(card);
+    });
+    body.appendChild(grid);
+  }
+
+  // Resources
+  if (sg.resources && sg.resources.length) {
+    const secTitle2 = document.createElement('div');
+    secTitle2.className = 'sg-section-title';
+    secTitle2.textContent = 'Recommended Resources';
+    body.appendChild(secTitle2);
+
+    const links = document.createElement('div');
+    links.className = 'sg-links';
+    sg.resources.forEach(r => {
+      const link = document.createElement('div');
+      link.className = 'sg-link';
+      link.innerHTML = `<span class="sg-link-icon">${r.icon}</span><div><div class="sg-link-label">${r.label}</div><div class="sg-link-sub">${r.sub}</div></div>`;
+      links.appendChild(link);
+    });
+    body.appendChild(links);
+  }
+
+  // Milestone
+  if (sg.milestone) {
+    const secTitle3 = document.createElement('div');
+    secTitle3.className = 'sg-section-title';
+    secTitle3.textContent = 'Phase Milestone 🏆';
+    body.appendChild(secTitle3);
+
+    const ms = document.createElement('div');
+    ms.className = 'sg-milestone';
+    ms.innerHTML = `<span class="sg-milestone-icon">${sg.milestone.icon}</span><div class="sg-milestone-text">${sg.milestone.text}</div>`;
+    body.appendChild(ms);
+  }
+
+  wrap.appendChild(toggle);
+  wrap.appendChild(body);
+  return wrap;
 }
 
-// ── RENDER ──
+// ─────────────────────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────────────────────
 function render() {
   const root = document.getElementById('roadmap-root');
   root.innerHTML = '';
@@ -1341,12 +1053,18 @@ function render() {
     phaseEl.className = 'phase';
     phaseEl.id = phase.id;
 
-    const header = document.createElement('div');
-    header.className = `phase-header ${phase.color}`;
+    // Timeline divider
+    const div = document.createElement('div');
+    div.className = 'timeline-divider';
+    div.innerHTML = `<span class="tl-month">📅 ${phase.timeline}</span><div class="tl-line"></div>`;
+    phaseEl.appendChild(div);
 
+    // Phase header
     const { done: pDone, total: pTotal } = phaseStats(phase);
     const pPct = pTotal ? Math.round(pDone / pTotal * 100) : 0;
 
+    const header = document.createElement('div');
+    header.className = `phase-header ${phase.color}`;
     header.innerHTML = `
       <div class="phase-icon">${phase.icon}</div>
       <div class="phase-meta">
@@ -1366,28 +1084,20 @@ function render() {
     `;
     phaseEl.appendChild(header);
 
-    if (pi > 0) {
-      const prev = ROADMAP[pi - 1];
-      if (prev.timeline !== phase.timeline) {
-        const div = document.createElement('div');
-        div.className = 'timeline-divider';
-        div.innerHTML = `<span class="tl-month">📅 ${phase.timeline}</span><div class="tl-line"></div>`;
-        phaseEl.insertBefore(div, phaseEl.firstChild);
-        phaseEl.insertBefore(div, header);
-      }
-    } else {
-      const div = document.createElement('div');
-      div.className = 'timeline-divider';
-      div.innerHTML = `<span class="tl-month">📅 ${phase.timeline}</span><div class="tl-line"></div>`;
-      phaseEl.insertBefore(div, header);
-    }
+    // Suggestions panel
+    const sgPanel = renderSuggestions(phase.id);
+    if (sgPanel) phaseEl.appendChild(sgPanel);
 
-    const grid = document.createElement('div');
-    grid.className = 'topics-grid';
+    // Topics section
+    const topicsSection = document.createElement('div');
+    topicsSection.className = 'topics-section';
+    const topicsInner = document.createElement('div');
+    topicsInner.className = 'topics-section-inner';
 
     phase.topics.forEach(topic => {
       const { done: tDone, total: tTotal } = topicStats(topic);
       const isTopicDone = tDone === tTotal && tTotal > 0;
+
       const card = document.createElement('div');
       card.className = 'topic-card';
 
@@ -1413,10 +1123,7 @@ function render() {
       tog.className = `topic-toggle ${state['open_'+topic.id] ? 'open' : ''}`;
       tog.textContent = '▼';
 
-      th.appendChild(chk);
-      th.appendChild(nm);
-      th.appendChild(cnt);
-      th.appendChild(tog);
+      th.appendChild(chk); th.appendChild(nm); th.appendChild(cnt); th.appendChild(tog);
 
       th.addEventListener('click', () => {
         state['open_'+topic.id] = !state['open_'+topic.id];
@@ -1432,9 +1139,7 @@ function render() {
 
       topic.subs.forEach(sub => {
         const subItem = document.createElement('div');
-        subItem.style.display = 'flex';
-        subItem.style.flexDirection = 'column';
-        subItem.style.gap = '4px';
+        subItem.style.cssText = 'display:flex;flex-direction:column;gap:4px;';
 
         const subRow = document.createElement('div');
         subRow.className = 'subtask-item';
@@ -1448,70 +1153,58 @@ function render() {
         subLbl.id = `sublbl-${sub.id}`;
         subLbl.textContent = sub.name;
 
-        subRow.onclick = () => { toggleCheck(sub.id); };
-
-        subRow.appendChild(subChk);
-        subRow.appendChild(subLbl);
-
         if (sub.subs && sub.subs.length > 0) {
           const subToggle = document.createElement('span');
-          subToggle.style.cssText = 'font-size:10px;color:var(--text-3);margin-left:auto;flex-shrink:0';
-          subToggle.textContent = '▸';
-          subRow.appendChild(subToggle);
-
+          subToggle.style.cssText = 'font-size:10px;color:var(--text-3);margin-left:auto;flex-shrink:0;';
           const ssKey = 'open_ss_'+sub.id;
+          subToggle.textContent = state[ssKey] ? '▾' : '▸';
+
+          subRow.appendChild(subChk); subRow.appendChild(subLbl); subRow.appendChild(subToggle);
+
+          subChk.onclick = (e) => { e.stopPropagation(); toggleCheck(sub.id); };
           subRow.addEventListener('click', (e) => {
             if (e.target === subChk) return;
-            state[ssKey] = !state[ssKey];
-            saveState();
+            state[ssKey] = !state[ssKey]; saveState();
             subToggle.textContent = state[ssKey] ? '▾' : '▸';
             ssList.classList.toggle('open', !!state[ssKey]);
           });
-          subRow.onclick = null;
-
-          subChk.onclick = (e) => { e.stopPropagation(); toggleCheck(sub.id); };
 
           const ssList = document.createElement('div');
           ssList.className = `sub-sub-list ${state[ssKey] ? 'open' : ''}`;
-          subToggle.textContent = state[ssKey] ? '▾' : '▸';
 
           sub.subs.forEach(ss => {
             const ssItem = document.createElement('div');
             ssItem.className = 'sub-sub-item';
             ssItem.onclick = () => { toggleCheck(ss.id); };
-
             const ssChk = document.createElement('div');
             ssChk.className = `sub-sub-check ${isChecked(ss.id) ? 'checked' : ''}`;
             ssChk.id = `sschk-${ss.id}`;
-
             const ssLbl = document.createElement('span');
             ssLbl.className = `sub-sub-label ${isChecked(ss.id) ? 'done' : ''}`;
             ssLbl.id = `sslbl-${ss.id}`;
             ssLbl.textContent = ss.name;
-
-            ssItem.appendChild(ssChk);
-            ssItem.appendChild(ssLbl);
+            ssItem.appendChild(ssChk); ssItem.appendChild(ssLbl);
             ssList.appendChild(ssItem);
           });
-
-          subItem.appendChild(subRow);
-          subItem.appendChild(ssList);
+          subItem.appendChild(subRow); subItem.appendChild(ssList);
         } else {
+          subRow.onclick = () => { toggleCheck(sub.id); };
+          subRow.appendChild(subChk); subRow.appendChild(subLbl);
           subItem.appendChild(subRow);
         }
-
         subList.appendChild(subItem);
       });
 
       card.appendChild(subList);
-      grid.appendChild(card);
+      topicsInner.appendChild(card);
     });
 
-    phaseEl.appendChild(grid);
+    topicsSection.appendChild(topicsInner);
+    phaseEl.appendChild(topicsSection);
     root.appendChild(phaseEl);
   });
 
-  // Daily routine section
+  // Daily routine
   const routineSection = document.createElement('div');
   routineSection.style.cssText = 'margin-top:48px;padding:24px;background:var(--surface-1);border:1px solid var(--border);border-radius:16px;';
   routineSection.innerHTML = `
@@ -1525,43 +1218,29 @@ function render() {
     </div>
   `;
   root.appendChild(routineSection);
-
   updateUI();
 }
 
-// ── STATS ──
+// ─────────────────────────────────────────────────────────
+// STATS & UPDATE
+// ─────────────────────────────────────────────────────────
 function allLeafIds(phase) {
   const ids = [];
-  phase.topics.forEach(t => {
-    t.subs.forEach(s => {
-      ids.push(s.id);
-      if (s.subs) s.subs.forEach(ss => ids.push(ss.id));
-    });
-  });
+  phase.topics.forEach(t => { t.subs.forEach(s => { ids.push(s.id); if (s.subs) s.subs.forEach(ss => ids.push(ss.id)); }); });
   return ids;
 }
-
-function phaseStats(phase) {
-  const ids = allLeafIds(phase);
-  return { done: ids.filter(id => isChecked(id)).length, total: ids.length };
-}
-
+function phaseStats(phase) { const ids = allLeafIds(phase); return { done: ids.filter(id => isChecked(id)).length, total: ids.length }; }
 function topicStats(topic) {
   const ids = [];
-  topic.subs.forEach(s => {
-    ids.push(s.id);
-    if (s.subs) s.subs.forEach(ss => ids.push(ss.id));
-  });
+  topic.subs.forEach(s => { ids.push(s.id); if (s.subs) s.subs.forEach(ss => ids.push(ss.id)); });
   return { done: ids.filter(id => isChecked(id)).length, total: ids.length };
 }
 
 function updateUI() {
   let totalDone = 0, totalAll = 0;
-
   ROADMAP.forEach(phase => {
     const { done, total } = phaseStats(phase);
-    totalDone += done;
-    totalAll += total;
+    totalDone += done; totalAll += total;
     const pct = total ? Math.round(done / total * 100) : 0;
     const pctEl = document.getElementById('pct-'+phase.id);
     const fillEl = document.getElementById('fill-'+phase.id);
@@ -1579,22 +1258,20 @@ function updateUI() {
       if (chk) chk.className = `topic-check ${isTopicDone ? 'checked' : ''}`;
       if (nm) nm.className = `topic-name ${isTopicDone ? 'done' : ''}`;
       if (cnt) cnt.textContent = `${td}/${tt}`;
-
       topic.subs.forEach(sub => {
-        const subChk = document.getElementById('subchk-'+sub.id);
-        const subLbl = document.getElementById('sublbl-'+sub.id);
-        if (subChk) subChk.className = `sub-check ${isChecked(sub.id) ? 'checked' : ''}`;
-        if (subLbl) subLbl.className = `sub-label ${isChecked(sub.id) ? 'done' : ''}`;
+        const sc = document.getElementById('subchk-'+sub.id);
+        const sl = document.getElementById('sublbl-'+sub.id);
+        if (sc) sc.className = `sub-check ${isChecked(sub.id) ? 'checked' : ''}`;
+        if (sl) sl.className = `sub-label ${isChecked(sub.id) ? 'done' : ''}`;
         if (sub.subs) sub.subs.forEach(ss => {
-          const ssChk = document.getElementById('sschk-'+ss.id);
-          const ssLbl = document.getElementById('sslbl-'+ss.id);
-          if (ssChk) ssChk.className = `sub-sub-check ${isChecked(ss.id) ? 'checked' : ''}`;
-          if (ssLbl) ssLbl.className = `sub-sub-label ${isChecked(ss.id) ? 'done' : ''}`;
+          const sc2 = document.getElementById('sschk-'+ss.id);
+          const sl2 = document.getElementById('sslbl-'+ss.id);
+          if (sc2) sc2.className = `sub-sub-check ${isChecked(ss.id) ? 'checked' : ''}`;
+          if (sl2) sl2.className = `sub-sub-label ${isChecked(ss.id) ? 'done' : ''}`;
         });
       });
     });
   });
-
   const pct = totalAll ? Math.round(totalDone / totalAll * 100) : 0;
   document.getElementById('progress-fill').style.width = pct + '%';
   document.getElementById('progress-pct').textContent = pct + '%';
@@ -1605,14 +1282,10 @@ function updateUI() {
 
 function toggleAllSubs(topic) {
   const leafIds = [];
-  topic.subs.forEach(s => {
-    leafIds.push(s.id);
-    if (s.subs) s.subs.forEach(ss => leafIds.push(ss.id));
-  });
+  topic.subs.forEach(s => { leafIds.push(s.id); if (s.subs) s.subs.forEach(ss => leafIds.push(ss.id)); });
   const allDone = leafIds.every(id => isChecked(id));
   leafIds.forEach(id => { state[id] = !allDone; });
-  saveState();
-  updateUI();
+  saveState(); updateUI();
   showToast(allDone ? '↩ Unchecked topic' : '✓ Topic completed!');
 }
 
@@ -1632,7 +1305,7 @@ function collapseAll() {
 
 function resetAll() {
   if (!confirm('All progress will be reset. Are you sure?')) return;
-  localStorage.removeItem('cse_roadmap_v3');
+  localStorage.removeItem('cse_roadmap_v4');
   state = {};
   render();
   showToast('↺ Progress reset');
@@ -1642,7 +1315,7 @@ function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
+  setTimeout(() => t.classList.remove('show'), 2200);
 }
 
 render();
